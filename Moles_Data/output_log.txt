@@ -1,0 +1,43 @@
+Initialize engine version: 5.4.2f2 (b7e030c65c9b)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 970 (ID=0x13c2)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.035 seconds
+Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.619622 ms
+Socket: bind failed, error: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+Cannot open socket on ip {*} and port {7777}; check please your network, most probably port has been already occupied
+ 
+(Filename:  Line: 492)
+
+StartServer listen failed.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at NetManager.Connect (UnityEngine.Networking.NetworkClient c) [0x00000] in <filename unknown>:0 
+  at NetManager.startAsHost () [0x00000] in <filename unknown>:0 
+  at NetManager.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 3e34 -> priority: 1 
+  Thread -> id: 4080 -> priority: 1 
