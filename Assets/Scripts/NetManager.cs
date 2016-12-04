@@ -14,7 +14,7 @@ public class NetManager : NetworkManager {
 
 	// Use this for initialization
 	void Start () {
-
+      
 		startAsHost();
 
 	}
@@ -23,7 +23,7 @@ public class NetManager : NetworkManager {
 	public void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
 		Debug.Log ("playerControllerId = " + playerControllerId + " logged in!");
-		GameObject player = (GameObject)GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+		GameObject player = (GameObject)GameObject.Instantiate(playerPrefab, new Vector3(3.5f,-3.5f,0), Quaternion.identity);
 		//playerMap.Add (playerControllerId, player);
 	
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);

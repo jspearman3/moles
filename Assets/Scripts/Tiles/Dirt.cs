@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Dirt : Tile {
 
-	private Sprite sprite = Tile.sprites[4];
+	private int spriteIndex = 7;
 
 	public override bool isWalkable() {
 		return true;
 	}
 
-	public override Sprite getSprite() {
-		return sprite;
-	}
+    public override int getSpriteIndex()
+    {
+        return spriteIndex;
+    }
+
 }

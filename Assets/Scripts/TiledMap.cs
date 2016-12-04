@@ -13,8 +13,13 @@ public class TiledMap : MonoBehaviour {
 
 	public float tileLength = 1.0f;
 
+    private Vector3 topLeftPoint;
+    private MeshRenderer renderer;
+
 	// Use this for initialization
 	void Start () {
+        topLeftPoint = GetComponent<Transform>().position;
+        renderer = GetComponent<MeshRenderer>();
 		mapData = new MapData();
 		width = mapData.tiles.GetLength(0);
 		height = mapData.tiles.GetLength(0);
@@ -27,7 +32,9 @@ public class TiledMap : MonoBehaviour {
 		float mapWidth = width * tileLength;
 		float mapHeight = height * tileLength;
 
-		Vector3 topLeft = new Vector3 (-mapWidth / 2, mapHeight / 2, 0);
+        //GetComponent<Transform>().position = new Vector3(-width * tileLength / 2f, height * tileLength / 2);
+
+		Vector3 topLeft = new Vector3 (0, 0, 0);
 
 		//make vertices for mesh. Simple square. No need for height info in 2D game
 		//  0           1
@@ -85,15 +92,14 @@ public class TiledMap : MonoBehaviour {
 	}
 
 	private void DrawMap() {
-		int texPixelWidth = mapData.tiles.GetLength(0) * Tile.pixelWidth;
+		int texPixelWidth = mapData.tiles.GetLength(0) * Tile.tileWidth;
 
-		Debug.Log ("len: " + Tile.sprites.Length);
 
 
 		Texture2D tex = new Texture2D (texPixelWidth, texPixelWidth);
 
 		for (int i = 0; i < mapData.tiles.GetLength(0); i++) {
-			for (int j = 0; j < mapData.tiles.GetLength(0); j++) {
+			for (int j = 0; j < mapData.tiles.GetLength(1); j++) {
 				Tile t = mapData.tiles [i, j];
 
 				drawTile (i, j, t, tex);
@@ -104,25 +110,85 @@ public class TiledMap : MonoBehaviour {
 
 		tex.Apply ();
 
-		GetComponent<MeshRenderer> ().sharedMaterials [0].mainTexture = tex;
+		renderer.sharedMaterials [0].mainTexture = tex;
 	}
 	
 	private void drawTile(int x, int y, Tile tile, Texture2D tex) {
-		int xStart = x * Tile.pixelWidth;
-		int xEnd = x * (Tile.pixelWidth + 1);
+		int xStart = x * Tile.tileWidth;
 
-		int yStart = y * Tile.pixelWidth;
-		int yEnd = y * (Tile.pixelWidth + 1);
+		int yStart = y * Tile.tileWidth;
 
-		Texture spriteTex = tile.getSprite ().texture;
-		Vector2 offset = tile.getSprite ().textureRectOffset;
+        Texture2D tileTex = Tile.getTile(tile.getSpriteIndex());
 
-		for (int i = 0; i < Tile.pixelWidth; i++) {
-			for (int j = 0; j < Tile.pixelWidth; j++) {
-				Vector2 spritePixel = offset + new Vector2 (i, j);
-				tex.SetPixel (xStart + i, yStart + j, tile.getSprite ().texture.GetPixel ((int)spritePixel.x, (int)spritePixel.y));
+		for (int i = 0; i < Tile.tileWidth; i++) {
+			for (int j = 0; j < Tile.tileWidth; j++) {
+
+                Color c = tileTex.GetPixel(j, i);
+
+				tex.SetPixel (yStart + j, xStart + i, c);
 			}
 		}
 
 	}
+
+    //Get tile at x,y and surrounding tiles
+    public Tile[,] getNonaTile(int x, int y)
+    {
+        Tile[,] returnTiles = new Tile[3, 3];
+
+        returnTiles[0, 0] = mapData.getTile(x - 1, y - 1);
+        returnTiles[1, 0] = mapData.getTile(x, y - 1);
+        returnTiles[2, 0] = mapData.getTile(x + 1, y - 1);
+        returnTiles[0, 1] = mapData.getTile(x - 1, y);
+        returnTiles[1, 1] = mapData.getTile(x, y);
+        returnTiles[2, 1] = mapData.getTile(x + 1, y);
+        returnTiles[0, 2] = mapData.getTile(x, y + 1);
+        returnTiles[1, 2] = mapData.getTile(x - 1, y + 1);
+        returnTiles[2, 2] = mapData.getTile(x + 1, y + 1);
+
+        return returnTiles;
+    }
+
+    public Tile getTileFromWorldSpace(Vector2 location)
+    {
+        Vector2 worldCoord = location - new Vector2(topLeftPoint.x, topLeftPoint.y);
+
+        int x = (int) Mathf.Floor(worldCoord.x);
+        int y = (int) Mathf.Floor(-worldCoord.y);
+        return mapData.getTile(x, y);
+
+    }
+
+    public void setTileFromWorldSpace(Vector2 location, Tile tile)
+    {
+        Vector2 worldCoord = location - new Vector2(topLeftPoint.x, topLeftPoint.y);
+
+        int x = (int)Mathf.Floor(worldCoord.x);
+        int y = (int)Mathf.Floor(-worldCoord.y);
+
+        mapData.setTile(x, y, tile);
+
+        Texture2D t = (Texture2D)renderer.sharedMaterials[0].mainTexture;
+
+        drawTile(x, y, tile, t);
+        t.Apply();
+
+    }
+
+    public Tile[,] getNonaTileFromWorldspace(Vector2 location)
+    {
+        Tile[,] nonaTile = new Tile[3, 3];
+
+        nonaTile[0, 0] = getTileFromWorldSpace(location + new Vector2(-1, -1));
+        nonaTile[1, 0] = getTileFromWorldSpace(location + new Vector2(0, -1));
+        nonaTile[2, 0] = getTileFromWorldSpace(location + new Vector2(1, -1));
+        nonaTile[0, 1] = getTileFromWorldSpace(location + new Vector2(-1, 0));
+        nonaTile[1, 1] = getTileFromWorldSpace(location + new Vector2(0, 0));
+        nonaTile[2, 1] = getTileFromWorldSpace(location + new Vector2(1, 0));
+        nonaTile[0, 2] = getTileFromWorldSpace(location + new Vector2(-1, 1));
+        nonaTile[1, 2] = getTileFromWorldSpace(location + new Vector2(0, 1));
+        nonaTile[2, 2] = getTileFromWorldSpace(location + new Vector2(1, 1));
+
+        return nonaTile;
+    }
 }

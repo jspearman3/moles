@@ -2,59 +2,89 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class MoleController : NetworkBehaviour {
-	[SyncVar]
-	private Vector3 syncPos;
-
+public class MoleController : Walker {
 	public float speed = 1;
-
-	public float lerpRate = 15;
+    public float digRange = 0.5f;
 
 	Animator anim;
-	Transform trans;
 	Rigidbody2D rigid;
+    Camera mainCamera;
 
+    Direction facing;
 	string idleAnimation;
 
 	// Use this for initialization
 	void Start () {
 		idleAnimation = "idle_down";
+        facing = Direction.South;
 		anim = GetComponent<Animator> ();
-		trans = GetComponent<Transform> (); 
 		rigid = GetComponent<Rigidbody2D> ();
-
+        mainCamera = Camera.main;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-		if (!isLocalPlayer) {
+	protected override void GameUpdate () {
+        movement ();
+        actions();
+        updateCamera();
+    }
 
-			Debug.Log ("first: " + trans.position);
+    private void updateCamera()
+    {
+        mainCamera.GetComponent<Transform>().position = new Vector3(trans.position.x, trans.position.y, 
+            -1);
+    }
 
-			trans.position = Vector3.Lerp (trans.position, syncPos, Time.deltaTime * lerpRate);
+    private void actions()
+    {
+        if (Input.GetKeyDown("e"))
+        {
+            //begin playing some animation and cooldown then:
 
-			Debug.Log ("second: " + trans.position);
-			Debug.Log ("syncpos: " + syncPos);
-			return;
-		}
+            tryDig();
+        }
+    }
 
-		CmdTransmitPosition (trans.position);
-		move ();
-	}
+    private void tryDig()
+    {
+        Vector2 digOffset;
+        switch (facing)
+        {
+            case Direction.North:
+                digOffset = new Vector2(0, digRange);
+                break;
+            case Direction.South:
+                digOffset = new Vector2(0, -digRange);
+                break;
+            case Direction.East:
+                digOffset = new Vector2(digRange, 0);
+                break;
+            case Direction.West:
+                digOffset = new Vector2(-digRange, 0);
+                break;
+            default:
+                return;
+        }
 
-	[Command]
-	void CmdTransmitPosition (Vector3 pos) {
-		syncPos = pos;
-	}
+        Vector2 digSpot = get2DPos() + digOffset;
+
+        Tile tile = map.getTileFromWorldSpace(digSpot);
+
+        if (!tile.isWalkable())
+        {
+            map.setTileFromWorldSpace(digSpot, new Dirt());
+        }
 
 
-	private void move() {
+    }
+
+
+	private void movement() {
 
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
 
-		trans.Translate(new Vector3 (h, v).normalized * speed * Time.deltaTime);
+		Move(new Vector2 (h, v).normalized * speed * Time.deltaTime);
 
 		string animation = selectAnimation (h, v);
 		anim.Play (animation, 0);
@@ -69,18 +99,22 @@ public class MoleController : NetworkBehaviour {
 		string newAnim = null;
 		if (v > 0) {
 			idleAnimation = "idle_up";
+            facing = Direction.North;
 			newAnim = "walk_up";
 		} else if (v < 0) {
 			idleAnimation = "idle_down";
-			newAnim = "walk_down";
+            facing = Direction.South;
+            newAnim = "walk_down";
 		}
 
 		if (h > 0) {
 			idleAnimation = "idle_right";
-			newAnim = "walk_right";
+            facing = Direction.East;
+            newAnim = "walk_right";
 		} else if (h < 0) {
 			idleAnimation = "idle_left";
-			newAnim = "walk_left";
+            facing = Direction.West;
+            newAnim = "walk_left";
 		}
 
 		return newAnim;
