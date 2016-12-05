@@ -68,13 +68,7 @@ public class MoleController : Walker {
 
         Vector2 digSpot = get2DPos() + digOffset;
 
-        Tile tile = map.getTileFromWorldSpace(digSpot);
-
-        if (!tile.isWalkable())
-        {
-            map.setTileFromWorldSpace(digSpot, new Dirt());
-        }
-
+		map.digFromWorldSpace (digSpot);
 
     }
 

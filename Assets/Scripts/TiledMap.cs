@@ -168,12 +168,57 @@ public class TiledMap : MonoBehaviour {
 
         mapData.setTile(x, y, tile);
 
-        Texture2D t = (Texture2D)renderer.sharedMaterials[0].mainTexture;
+		Texture2D t = (Texture2D)renderer.sharedMaterials[0].mainTexture;
 
         drawTile(x, y, tile, t);
         t.Apply();
 
     }
+
+
+
+	public void digFromWorldSpace(Vector2 location) {
+		Vector2 mapCoords = getMapCoordsFromWorldSpace (location);
+
+		Tile[,] nona = getNonaTile ((int)mapCoords.x, (int)mapCoords.y);
+		Tile tile = nona [1, 1];
+
+		if (tile == null || !tile.GetType().Equals(typeof(Wall)))
+			{
+				return;
+			}
+
+		Texture2D t = (Texture2D)renderer.sharedMaterials[0].mainTexture;
+
+		mapData.digWall ((int)mapCoords.x, (int)mapCoords.y);
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				redrawTile ((int)mapCoords.x - 1 + i, (int)mapCoords.y - 1 + j);
+			}
+		}
+	}
+
+	private void redrawTile(int x, int y) {
+		Tile t = mapData.getTile (x, y);
+		if (t == null) {
+			return;
+		}
+
+		Texture2D tex = (Texture2D)renderer.sharedMaterials [0].mainTexture;
+		drawTile (x, y, t, tex);
+		tex.Apply ();
+	}
+
+	public Vector2 getMapCoordsFromWorldSpace(Vector2 location) {
+
+		Vector2 worldCoord = location - new Vector2(topLeftPoint.x, topLeftPoint.y);
+
+		int x = (int)Mathf.Floor(worldCoord.x);
+		int y = (int)Mathf.Floor(-worldCoord.y);
+
+		return new Vector2 (x, y);
+	}
 
     public Tile[,] getNonaTileFromWorldspace(Vector2 location)
     {

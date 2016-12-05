@@ -14,7 +14,7 @@ public class Walker : GameEntity {
 
     protected void Move(Vector2 translation)
     {
-        map.ToString();
+
         Vector2 pos = new Vector2(trans.position.x, trans.position.y);
         Tile[,] nonaTile = map.getNonaTileFromWorldspace(pos);
 

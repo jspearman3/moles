@@ -3,7 +3,6 @@ using System.Collections;
 
 public abstract class Tile {
 	public static int tileWidth = 16;
-    public static int tilesPerRow = 6;
     public static Sprite sprite = Resources.Load<Sprite> ("Textures/Terrain/TerrainTiles");
 
 	public abstract bool isWalkable ();
@@ -16,7 +15,10 @@ public abstract class Tile {
 
     public static Vector2 getTexCoordsByIndex(int index)
     {
-        int row = tilesPerRow - (index / tilesPerRow) - 1;
+		int tilesPerRow = sprite.texture.width / tileWidth;
+		int tilesPerColumn = sprite.texture.height / tileWidth;
+
+        int row = tilesPerColumn - (index / tilesPerRow) - 1;
         int column = index % tilesPerRow;
 
         return new Vector2(row * tileWidth, column * tileWidth);

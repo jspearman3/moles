@@ -1,14 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MapData.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Tiles\WallType.cs">
     <Files>
       <File FileName="Assets\Scripts\NetManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MapData.cs" Line="11" Column="36" />
-      <File FileName="Assets\Scripts\Tiles\Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Tiles\Dirt.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Tiles\Wall.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Tiles\Darkness.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\TiledMap.cs" Line="102" Column="2" />
+      <File FileName="Assets\Scripts\MapData.cs" Line="21" Column="6" />
+      <File FileName="Assets\Scripts\Tiles\Tile.cs" Line="6" Column="22" />
+      <File FileName="Assets\Scripts\Tiles\Dirt.cs" Line="6" Column="9" />
+      <File FileName="Assets\Scripts\Tiles\Wall.cs" Line="6" Column="10" />
+      <File FileName="Assets\Scripts\Tiles\Darkness.cs" Line="6" Column="1" />
+      <File FileName="Assets\Scripts\TiledMap.cs" Line="123" Column="96" />
+      <File FileName="Assets\Scripts\Tiles\WallType.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

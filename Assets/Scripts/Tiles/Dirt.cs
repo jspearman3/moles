@@ -4,7 +4,7 @@ using System;
 
 public class Dirt : Tile {
 
-	private int spriteIndex = 7;
+	private int spriteIndex = 47;
 
 	public override bool isWalkable() {
 		return true;
