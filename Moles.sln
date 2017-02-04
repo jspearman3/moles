@@ -1,7 +1,7 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{38F0C003-B607-ED7F-F6D1-2F6C160D3B34}") = "Moles", "Assembly-CSharp.csproj", "{8D80127A-B817-416D-56F7-1DCE39FAB4E3}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moles", "Assembly-CSharp.csproj", "{8D80127A-B817-416D-56F7-1DCE39FAB4E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
