@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moles", "Assembly-CSharp.csproj", "{8D80127A-B817-416D-56F7-1DCE39FAB4E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "moles", "Assembly-CSharp.csproj", "{4D1D5EAD-9474-EB2A-1B8E-3181972E2184}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8D80127A-B817-416D-56F7-1DCE39FAB4E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D80127A-B817-416D-56F7-1DCE39FAB4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D80127A-B817-416D-56F7-1DCE39FAB4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D80127A-B817-416D-56F7-1DCE39FAB4E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D1D5EAD-9474-EB2A-1B8E-3181972E2184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D1D5EAD-9474-EB2A-1B8E-3181972E2184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D1D5EAD-9474-EB2A-1B8E-3181972E2184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D1D5EAD-9474-EB2A-1B8E-3181972E2184}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

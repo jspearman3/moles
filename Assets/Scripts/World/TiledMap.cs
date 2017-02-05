@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-public class TiledMap : MonoBehaviour {
+public class TiledMap : NetworkBehaviour {
 	public int width = 100;
 	public int height = 100;
 
@@ -177,8 +177,12 @@ public class TiledMap : MonoBehaviour {
     }
 
 
-
 	public void digFromWorldSpace(Vector2 location) {
+		RpcDigFromWorldSpace (location);
+	}
+
+	[ClientRpc]
+	public void RpcDigFromWorldSpace(Vector2 location) {
 		Vector2 mapCoords = getMapCoordsFromWorldSpace (location);
 
 		Tile[,] nona = getNonaTile ((int)mapCoords.x, (int)mapCoords.y);

@@ -13,6 +13,7 @@ public class NetManager : NetworkManager {
 	public Text debug;
 	public string hostScene;
 	public string clientScene;
+	public GameObject mapPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -58,8 +59,20 @@ public class NetManager : NetworkManager {
 
 	}
 
+	override
+	public void OnStartHost() {
+		StartCoroutine (initializeHost (0.1f));
+	}
 
+	IEnumerator initializeHost(float waitTime) {
 
+		SceneManager.LoadScene (hostScene.ToString());
+
+		yield return new WaitForSeconds(waitTime);
+
+		GameObject map = (GameObject) Instantiate (mapPrefab, Vector3.zero, Quaternion.identity);
+		NetworkServer.Spawn (map);
+	}
 
 	////////////////////////////
 	// Client/Server Messages //
@@ -98,14 +111,17 @@ public class NetManager : NetworkManager {
 	public void OnConnected(NetworkMessage message) {
 		Debug.Log("Connected to server1. " + client.isConnected);
 
-
 		StartCoroutine(loadIn(.1f, message));
 
 	}
 
 	IEnumerator loadIn(float waitTime, NetworkMessage message) {
+
 		SceneManager.LoadScene (hostScene.ToString());
+
 		yield return new WaitForSeconds(waitTime);
+
+
 		ClientScene.AddPlayer(message.conn, 1);
 	}
 

@@ -69,9 +69,14 @@ public class MoleController : Walker {
 
         Vector2 digSpot = get2DPos() + digOffset;
 
-		map.digFromWorldSpace (digSpot);
+		CmdDig (digSpot);
 
     }
+
+	[Command]
+	private void CmdDig(Vector2 digSpot) {
+		map.digFromWorldSpace (digSpot);
+	}
 
 
 	private void movement() {

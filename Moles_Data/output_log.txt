@@ -7,55 +7,54 @@ Direct3D:
     VRAM:     3072 MB
     Driver:   21.21.13.7849
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
-Loading C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  0.024 seconds
-Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\Jimmy\Projects\Unity\Moles\Moles_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  0.018 seconds
+Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.240531 ms
-attempting connection with  on port 30135...
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Connected to server1. True
+UnloadTime: 2.352211 ms
+starting server on port 5000...
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 6.379635 ms
-
-Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 327.
-Total: 0.260503 ms (FindLiveObjects: 0.030993 ms CreateObjectMapping: 0.010502 ms MarkObjects: 0.209273 ms  DeleteObjects: 0.008196 ms)
-
-Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:30135}
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-ClientDisconnected due to error: Timeout
+Connected to server1. False
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-UnloadTime: 0.294314 ms
+UnloadTime: 2.116042 ms
 
-Unloading 1605 unused Assets to reduce memory usage. Loaded Objects now: 381.
-Total: 1.458765 ms (FindLiveObjects: 0.048412 ms CreateObjectMapping: 0.070440 ms MarkObjects: 0.303536 ms  DeleteObjects: 1.036376 ms)
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 338.
+Total: 0.239498 ms (FindLiveObjects: 0.014600 ms CreateObjectMapping: 0.010758 ms MarkObjects: 0.204406 ms  DeleteObjects: 0.005891 ms)
 
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.255380 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.454151 ms
 
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 381.
-Total: 0.282019 ms (FindLiveObjects: 0.011014 ms CreateObjectMapping: 0.011270 ms MarkObjects: 0.257429 ms  DeleteObjects: 0.002305 ms)
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 338.
+Total: 0.465934 ms (FindLiveObjects: 0.027151 ms CreateObjectMapping: 0.031762 ms MarkObjects: 0.400360 ms  DeleteObjects: 0.006147 ms)
+
+playerControllerId = 1 logged in!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.289191 ms
+
+Unloading 1602 unused Assets to reduce memory usage. Loaded Objects now: 393.
+Total: 1.241551 ms (FindLiveObjects: 0.031250 ms CreateObjectMapping: 0.055584 ms MarkObjects: 0.255636 ms  DeleteObjects: 0.899081 ms)
 
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 25b8 -> priority: 1 
-  Thread -> id: 388 -> priority: 1 
+  Thread -> id: 2eb4 -> priority: 1 
+  Thread -> id: 2b04 -> priority: 1 

@@ -16,7 +16,6 @@ public class Walker : GameEntity {
     {
 
         Vector2 pos = new Vector2(trans.position.x, trans.position.y);
-        Tile[,] nonaTile = map.getNonaTileFromWorldspace(pos);
 
         Tile destTile = map.getTileFromWorldSpace(pos + translation);
 
