@@ -1,18 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Networking\NetManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Testing\TiledMapTest.cs">
     <Files>
-      <File FileName="Assets\Scripts\World\TiledMap.cs" Line="192" Column="5" />
-      <File FileName="Assets\Scripts\World\MapData.cs" Line="22" Column="5" />
-      <File FileName="Assets\Scripts\World\Tiles\Tile.cs" Line="4" Column="27" />
-      <File FileName="Assets\Scripts\World\Tiles\Wall.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Characters\MoleController.cs" Line="72" Column="9" />
-      <File FileName="Assets\Scripts\World\Tiles\Dirt.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\World\Tiles\Darkness.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainMenuController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\World\Tiles\Connectable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Networking\NetManager.cs" Line="43" Column="3" />
-      <File FileName="Assets\Scripts\Characters\Walker.cs" Line="19" Column="1" />
+      <File FileName="Assets\Scripts\Testing\MoleControllerTest.cs" Line="70" Column="1" />
+      <File FileName="Assets\Scripts\Testing\WalkerTest.cs" Line="7" Column="24" />
+      <File FileName="Assets\Scripts\Networking\GameEntity.cs" Line="43" Column="1" />
+      <File FileName="Assets\Scripts\Testing\TiledMapTest.cs" Line="217" Column="4" />
+      <File FileName="Assets\Scripts\Testing\MapDataTest.cs" Line="68" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

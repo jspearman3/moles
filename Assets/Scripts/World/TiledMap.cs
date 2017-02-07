@@ -2,8 +2,8 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
+//[RequireComponent(typeof(MeshFilter))]
+//[RequireComponent(typeof(MeshRenderer))]
 public class TiledMap : NetworkBehaviour {
 	public int width = 100;
 	public int height = 100;
@@ -15,12 +15,12 @@ public class TiledMap : NetworkBehaviour {
 	public float tileLength = 1.0f;
 
     private Vector3 topLeftPoint;
-    private MeshRenderer renderer;
+    private SpriteRenderer renderer;
 
 	// Use this for initialization
 	void Start () {
         topLeftPoint = GetComponent<Transform>().position;
-        renderer = GetComponent<MeshRenderer>();
+        renderer = GetComponent<SpriteRenderer>();
 		mapData = MapData.buildDefaultMap ();
 		width = mapData.tiles.GetLength(0);
 		height = mapData.tiles.GetLength(0);
@@ -29,6 +29,8 @@ public class TiledMap : NetworkBehaviour {
 	}
 
 	private void BuildMesh() {
+
+		/*
 
 		float mapWidth = width * tileLength;
 		float mapHeight = height * tileLength;
@@ -86,6 +88,11 @@ public class TiledMap : NetworkBehaviour {
 
 		GetComponent<MeshFilter> ().mesh = mesh;
 
+
+		*/
+
+
+
 		DrawMap ();
 
 
@@ -111,7 +118,8 @@ public class TiledMap : NetworkBehaviour {
 
 		tex.Apply ();
 
-		renderer.sharedMaterials [0].mainTexture = tex;
+		renderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero, 16);
+		GetComponent<Transform> ().rotation = Quaternion.Euler (new Vector3 (0, 0, -90));
 	}
 	
 	private void drawTile(int x, int y, Tile tile, Texture2D tex) {
@@ -169,7 +177,7 @@ public class TiledMap : NetworkBehaviour {
 
         mapData.setTile(x, y, tile);
 
-		Texture2D t = (Texture2D)renderer.sharedMaterials[0].mainTexture;
+		Texture2D t = renderer.sprite.texture;
 
         drawTile(x, y, tile, t);
         t.Apply();
@@ -210,7 +218,7 @@ public class TiledMap : NetworkBehaviour {
 			return;
 		}
 
-		Texture2D tex = (Texture2D)renderer.sharedMaterials [0].mainTexture;
+		Texture2D tex = renderer.sprite.texture;
 		drawTile (x, y, t, tex);
 		tex.Apply ();
 	}

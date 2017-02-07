@@ -24,4 +24,5 @@ public class Walker : GameEntity {
             trans.Translate(translation);
         }
     }
+
 }
