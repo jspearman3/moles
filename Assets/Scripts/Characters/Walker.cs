@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Walker : GameEntity {
 
-    protected TiledMap map;
     protected float width = 0;
     protected float height = 0;
 
@@ -15,13 +14,11 @@ public class Walker : GameEntity {
     protected void Move(Vector2 translation)
     {
 
-        Vector2 pos = new Vector2(trans.position.x, trans.position.y);
-
-        Tile destTile = map.getTileFromWorldSpace(pos + translation);
+		Tile destTile = map.getTileFromGamePosition(gamePos.addWorld(translation));
 
         if (destTile.isWalkable())
         {
-            trans.Translate(translation);
+			gamePos.planeTranslateWorld(translation);
         }
     }
 

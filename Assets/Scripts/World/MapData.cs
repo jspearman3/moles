@@ -3,22 +3,22 @@ using System.Collections;
 
 public class MapData {
 	
-	public Tile[,] tiles;
+	public Tile[,,] tiles;
 
 
 	public MapData() {
 		tiles = buildDefaultMap ().tiles;
 	}
 
-	public MapData(int length, int width) {
+	public MapData(int length, int width, int depth) {
 
-		tiles = new Tile[width, length];
+		tiles = new Tile[width, length, depth];
 
 		for (int i = 0; i < length; i++) {
-			for (int j = 0; j < length; j++) {
-
-				tiles [i, j] = new Wall (WallType.Filled);
-
+			for (int j = 0; j < width; j++) {
+				for (int k = 0; k < depth; k++) {
+					tiles [i, j, k] = new Wall (WallType.Filled);
+				}
 			}
 		}
 	}
@@ -26,54 +26,75 @@ public class MapData {
 
 	//default 3x3 area in 40x40 map
 	public static MapData buildDefaultMap() {
-		MapData returnMap = new MapData (40,40);
+		MapData returnMap = new MapData (40, 40, 3);
 
-		returnMap.tiles [3,3] = new Dirt ();
-		returnMap.tiles [3,4] = new Dirt ();
-		returnMap.tiles [3,5] = new Dirt ();
-		returnMap.tiles [4,3] = new Dirt ();
-		returnMap.tiles [4,4] = new Dirt ();
-		returnMap.tiles [4,5] = new Dirt ();
-		returnMap.tiles [5,3] = new Dirt ();
-		returnMap.tiles [5,4] = new Dirt ();
-		returnMap.tiles [5,5] = new Dirt ();
+		returnMap.tiles [3,3,1] = new Dirt ();
+		returnMap.tiles [3,4,1] = new Dirt ();
+		returnMap.tiles [3,5,1] = new Dirt ();
+		returnMap.tiles [4,3,1] = new Dirt ();
+		returnMap.tiles [4,4,1] = new Dirt ();
+		returnMap.tiles [4,5,1] = new Dirt ();
+		returnMap.tiles [5,3,1] = new Dirt ();
+		returnMap.tiles [5,4,1] = new Dirt ();
+		returnMap.tiles [5,5,1] = new Dirt ();
 
-		returnMap.tiles[2, 2] = new Wall(WallType.Angle_In_UL);
-		returnMap.tiles[3, 2] = new Wall(WallType.Up);
-		returnMap.tiles[4, 2] = new Wall(WallType.Up);
-		returnMap.tiles[5, 2] = new Wall(WallType.Up);
-		returnMap.tiles[6, 2] = new Wall(WallType.Angle_In_UR);
+		returnMap.tiles [6,6,2] = new Dirt ();
+		returnMap.tiles [2,2,0] = new Dirt ();
+		returnMap.tiles [2,3,0] = new Dirt ();
 
-		returnMap.tiles[2, 3] = new Wall(WallType.Left);
-		returnMap.tiles[2, 4] = new Wall(WallType.Left);
-		returnMap.tiles[2, 5] = new Wall(WallType.Left);
-		returnMap.tiles[2, 6] = new Wall(WallType.Angle_In_DL);
+		returnMap.tiles[2, 2,1] = new Wall(WallType.Angle_In_UL);
+		returnMap.tiles[3, 2,1] = new Wall(WallType.Up);
+		returnMap.tiles[4, 2,1] = new Wall(WallType.Up);
+		returnMap.tiles[5, 2,1] = new Wall(WallType.Up);
+		returnMap.tiles[6, 2,1] = new Wall(WallType.Angle_In_UR);
 
-		returnMap.tiles[3, 6] = new Wall(WallType.Down);
-		returnMap.tiles[4, 6] = new Wall(WallType.Down);
-		returnMap.tiles[5, 6] = new Wall(WallType.Down);
-		returnMap.tiles[6, 6] = new Wall(WallType.Angle_In_DR);
+		returnMap.tiles[2, 3,1] = new Wall(WallType.Left);
+		returnMap.tiles[2, 4,1] = new Wall(WallType.Left);
+		returnMap.tiles[2, 5,1] = new Wall(WallType.Left);
+		returnMap.tiles[2, 6,1] = new Wall(WallType.Angle_In_DL);
 
-		returnMap.tiles[6, 3] = new Wall(WallType.Right);
-		returnMap.tiles[6, 4] = new Wall(WallType.Right);
-		returnMap.tiles[6, 5] = new Wall(WallType.Right);
+		returnMap.tiles[3, 6,1] = new Wall(WallType.Down);
+		returnMap.tiles[4, 6,1] = new Wall(WallType.Down);
+		returnMap.tiles[5, 6,1] = new Wall(WallType.Down);
+		returnMap.tiles[6, 6,1] = new Wall(WallType.Angle_In_DR);
+
+		returnMap.tiles[6, 3,1] = new Wall(WallType.Right);
+		returnMap.tiles[6, 4,1] = new Wall(WallType.Right);
+		returnMap.tiles[6, 5,1] = new Wall(WallType.Right);
 
 		return returnMap;
 	}
 
-    public Tile getTile(int x, int y)
+	public Tile getTile(MapCoords coords) {
+		return getTile (coords.x, coords.y, coords.depth);
+	}
+
+	public Tile getTile(int x, int y, int depth)
     {
-        if (x >= tiles.GetLength(0) || y >= tiles.GetLength(1) || x < 0 || y < 0)
+		if (!validCoords(x, y, depth))
         {
             return null;
         }
 
-        return tiles[x, y];
+        return tiles[x, y, depth];
     }
 
-    public void digWall(int x, int y)
+	private bool validCoords(int x, int y, int depth) {
+		if (x >= tiles.GetLength(0) || y >= tiles.GetLength(1) || depth >= tiles.GetLength(2) || x < 0 || y < 0 || depth < 0)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public void digWall(MapCoords coords) {
+		digWall (coords.x, coords.y, coords.depth);
+	}
+
+    public void digWall(int x, int y, int depth)
     {
-        Tile t = getTile(x, y);
+        Tile t = getTile(x, y, depth);
 
         if (t == null)
         {
@@ -85,22 +106,22 @@ public class MapData {
             return;
         }
 
-		setTile(x, y, new Dirt());
+		setTile(x, y, depth, new Dirt());
 
 		//update all surrounding walls
-		updateWall(x - 1, y - 1);
-		updateWall(x, y - 1);
-		updateWall(x + 1, y - 1);
-		updateWall(x - 1, y);
-		updateWall(x + 1, y);
-		updateWall(x - 1, y + 1);
-		updateWall(x, y + 1);
-		updateWall(x + 1, y + 1);
+		updateWall(x - 1, y - 1, depth);
+		updateWall(x, y - 1, depth);
+		updateWall(x + 1, y - 1, depth);
+		updateWall(x - 1, y, depth);
+		updateWall(x + 1, y, depth);
+		updateWall(x - 1, y + 1, depth);
+		updateWall(x, y + 1, depth);
+		updateWall(x + 1, y + 1, depth);
     }
 
-    private void updateWall(int x, int y)
+    private void updateWall(int x, int y, int depth)
     {
-        Tile tile = getTile(x, y);
+		Tile tile = getTile(x, y, depth);
 
         if (tile == null || !tile.GetType().Equals(typeof(Wall)))
         {
@@ -110,14 +131,14 @@ public class MapData {
         //order: up right down left
         Tile[] adjacencies = new Tile[8];
 
-        adjacencies[0] = getTile(x - 1, y - 1);
-        adjacencies[1] = getTile(x, y - 1);
-        adjacencies[2] = getTile(x + 1, y - 1);
-        adjacencies[3] = getTile(x + 1, y);
-		adjacencies[4] = getTile(x + 1, y + 1);
-		adjacencies[5] = getTile(x, y + 1);
-		adjacencies[6] = getTile(x - 1, y + 1);
-		adjacencies[7] = getTile(x - 1, y);
+        adjacencies[0] = getTile(x - 1, y - 1, depth);
+		adjacencies[1] = getTile(x, y - 1, depth);
+		adjacencies[2] = getTile(x + 1, y - 1, depth);
+		adjacencies[3] = getTile(x + 1, y, depth);
+		adjacencies[4] = getTile(x + 1, y + 1, depth);
+		adjacencies[5] = getTile(x, y + 1, depth);
+		adjacencies[6] = getTile(x - 1, y + 1, depth);
+		adjacencies[7] = getTile(x - 1, y, depth);
 
 		bool[] adjacentWalls = new bool[8];
 
@@ -311,13 +332,13 @@ public class MapData {
         return WallType.Down;
     }
 
-    public void setTile(int x, int y, Tile tile)
+	public void setTile(int x, int y, int depth, Tile tile)
     {
-        if (x >= tiles.GetLength(0) || y >= tiles.GetLength(1) || x < 0 || y < 0)
+		if (!validCoords(x, y, depth))
         {
             return;
         }
 
-        tiles[x, y] = tile;
+        tiles[x, y, depth] = tile;
     }
 }

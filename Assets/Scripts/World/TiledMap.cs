@@ -5,110 +5,60 @@ using UnityEngine.Networking;
 //[RequireComponent(typeof(MeshFilter))]
 //[RequireComponent(typeof(MeshRenderer))]
 public class TiledMap : NetworkBehaviour {
-	public int width = 100;
-	public int height = 100;
+	public const float TILE_LENGTH = 1.0f; 
+
+	public int mapWidth = 100;
+	public int mapHeight = 100;
+	public int mapDepth = 100;
 
 	public Sprite[] terrain;
 
 	private MapData mapData;
 
-	public float tileLength = 1.0f;
 
-    private Vector3 topLeftPoint;
-    private SpriteRenderer renderer;
+
+    private Vector2 topLeftPoint;
+	public GameObject[] worldLevels;
 
 	// Use this for initialization
 	void Start () {
         topLeftPoint = GetComponent<Transform>().position;
-        renderer = GetComponent<SpriteRenderer>();
 		mapData = MapData.buildDefaultMap ();
-		width = mapData.tiles.GetLength(0);
-		height = mapData.tiles.GetLength(0);
-
-		BuildMesh ();
+		mapWidth = mapData.tiles.GetLength(0);
+		mapHeight = mapData.tiles.GetLength(1);
+		mapDepth = mapData.tiles.GetLength(2);
+		BuildGameWorld ();
 	}
 
-	private void BuildMesh() {
+	private void BuildGameWorld() {
 
-		/*
+		worldLevels = new GameObject[mapDepth];
 
-		float mapWidth = width * tileLength;
-		float mapHeight = height * tileLength;
-
-        //GetComponent<Transform>().position = new Vector3(-width * tileLength / 2f, height * tileLength / 2);
-
-		Vector3 topLeft = new Vector3 (0, 0, 0);
-
-		//make vertices for mesh. Simple square. No need for height info in 2D game
-		//  0           1
-		//  o---------o
-		//  |       / |
-		//  |    /    |
-		//  | /       |
-		//  o---------o
-		//  2         3
-		//
-		Vector3[] vertices = new Vector3[4];
-		vertices [0] = topLeft;
-		vertices [1] = topLeft + new Vector3 (mapWidth, 0, 0);
-		vertices [2] = topLeft + new Vector3 (0, -mapHeight, 0);
-		vertices [3] = topLeft + new Vector3 (mapWidth, -mapHeight, 0);
-
-		int[] triangles = new int[6];
-
-		//triangle 1
-		triangles[0] = 0;
-		triangles[1] = 1;
-		triangles[2] = 2;
-
-		//triangle 2
-		triangles[3] = 1;
-		triangles[4] = 3;
-		triangles[5] = 2;
-
-		Vector3[] normals = new Vector3[4];
-		normals [0] = new Vector3(0, 0, 1);
-		normals [1] = new Vector3(0, 0, 1);
-		normals [2] = new Vector3(0, 0, 1);
-		normals [3] = new Vector3(0, 0, 1);
-
-		//set texture uv coords
-		Vector2[] uv = new Vector2[4];
-
-		uv[0] = new Vector2(0, 0); 
-		uv[1] = new Vector2(0, 1); 
-		uv[2] = new Vector2(1, 0); 
-		uv[3] = new Vector2(1, 1); 
-
-		Mesh mesh = new Mesh ();
-		mesh.vertices = vertices;
-		mesh.triangles = triangles;
-		mesh.normals = normals;
-		mesh.uv = uv;
-
-		GetComponent<MeshFilter> ().mesh = mesh;
-
-
-		*/
-
-
-
-		DrawMap ();
-
-
+		for (int i = 0; i < mapDepth; i++) {
+			GameObject worldLevel = new GameObject ("World depth " + i);
+			worldLevels [i] = worldLevel;
+			SpriteRenderer renderer = worldLevel.AddComponent<SpriteRenderer> ();
+			worldLevel.AddComponent<MapLevelRenderingController> ();
+			worldLevel.transform.parent = gameObject.transform;
+			worldLevel.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, -90));
+			worldLevel.transform.position = getLevelTopLeftRefPoint(i);
+			DrawPlane (i, renderer);
+		}
 
 	}
 
-	private void DrawMap() {
-		int texPixelWidth = mapData.tiles.GetLength(0) * Tile.tileWidth;
+	private void DrawPlane(int depth, SpriteRenderer renderer) {
+		renderer.sortingOrder = mapDepth - depth - 1;
+		int texPixelWidth = mapData.tiles.GetLength(0) * Tile.tileWidthInPixels;
+		int texPixelHeight = mapData.tiles.GetLength(1) * Tile.tileWidthInPixels;
 
 
 
-		Texture2D tex = new Texture2D (texPixelWidth, texPixelWidth);
+		Texture2D tex = new Texture2D (texPixelWidth, texPixelHeight);
 
 		for (int i = 0; i < mapData.tiles.GetLength(0); i++) {
 			for (int j = 0; j < mapData.tiles.GetLength(1); j++) {
-				Tile t = mapData.tiles [i, j];
+				Tile t = mapData.tiles [i, j, depth];
 
 				drawTile (i, j, t, tex);
 			}
@@ -118,19 +68,19 @@ public class TiledMap : NetworkBehaviour {
 
 		tex.Apply ();
 
-		renderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero, 16);
-		GetComponent<Transform> ().rotation = Quaternion.Euler (new Vector3 (0, 0, -90));
+		renderer.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero, Tile.tileWidthInPixels / TILE_LENGTH);
+		//GetComponent<Transform> ().rotation = Quaternion.Euler (new Vector3 (0, 0, -90));
 	}
 	
 	private void drawTile(int x, int y, Tile tile, Texture2D tex) {
-		int xStart = x * Tile.tileWidth;
+		int xStart = x * Tile.tileWidthInPixels;
 
-		int yStart = y * Tile.tileWidth;
+		int yStart = y * Tile.tileWidthInPixels;
 
         Texture2D tileTex = Tile.getTile(tile.getSpriteIndex());
 
-		for (int i = 0; i < Tile.tileWidth; i++) {
-			for (int j = 0; j < Tile.tileWidth; j++) {
+		for (int i = 0; i < Tile.tileWidthInPixels; i++) {
+			for (int j = 0; j < Tile.tileWidthInPixels; j++) {
 
                 Color c = tileTex.GetPixel(j, i);
 
@@ -140,44 +90,45 @@ public class TiledMap : NetworkBehaviour {
 
 	}
 
+	public Tile[,] getNonaTile(MapCoords coords) {
+		return getNonaTile (coords.x, coords.y, coords.depth);
+	}
+
     //Get tile at x,y and surrounding tiles
-    public Tile[,] getNonaTile(int x, int y)
+	public Tile[,] getNonaTile(int x, int y, int depth)
     {
         Tile[,] returnTiles = new Tile[3, 3];
 
-        returnTiles[0, 0] = mapData.getTile(x - 1, y - 1);
-        returnTiles[1, 0] = mapData.getTile(x, y - 1);
-        returnTiles[2, 0] = mapData.getTile(x + 1, y - 1);
-        returnTiles[0, 1] = mapData.getTile(x - 1, y);
-        returnTiles[1, 1] = mapData.getTile(x, y);
-        returnTiles[2, 1] = mapData.getTile(x + 1, y);
-        returnTiles[0, 2] = mapData.getTile(x, y + 1);
-        returnTiles[1, 2] = mapData.getTile(x - 1, y + 1);
-        returnTiles[2, 2] = mapData.getTile(x + 1, y + 1);
+		returnTiles[0, 0] = mapData.getTile(x - 1, y - 1, depth);
+		returnTiles[1, 0] = mapData.getTile(x, y - 1, depth);
+		returnTiles[2, 0] = mapData.getTile(x + 1, y - 1, depth);
+		returnTiles[0, 1] = mapData.getTile(x - 1, y, depth);
+		returnTiles[1, 1] = mapData.getTile(x, y, depth);
+		returnTiles[2, 1] = mapData.getTile(x + 1, y, depth);
+		returnTiles[0, 2] = mapData.getTile(x, y + 1, depth);
+		returnTiles[1, 2] = mapData.getTile(x - 1, y + 1, depth);
+		returnTiles[2, 2] = mapData.getTile(x + 1, y + 1, depth);
 
         return returnTiles;
     }
 
-    public Tile getTileFromWorldSpace(Vector2 location)
+	public Tile getTileFromGamePosition(GamePosition pos)
     {
-        Vector2 worldCoord = location - new Vector2(topLeftPoint.x, topLeftPoint.y);
-
-        int x = (int) Mathf.Floor(worldCoord.x);
-        int y = (int) Mathf.Floor(-worldCoord.y);
-        return mapData.getTile(x, y);
+		MapCoords coords = pos.toMapCoords();
+        return mapData.getTile(coords);
 
     }
 
-    public void setTileFromWorldSpace(Vector2 location, Tile tile)
+	public void setTileFromWorldSpace(Vector2 location, int depth, Tile tile)
     {
         Vector2 worldCoord = location - new Vector2(topLeftPoint.x, topLeftPoint.y);
 
         int x = (int)Mathf.Floor(worldCoord.x);
         int y = (int)Mathf.Floor(-worldCoord.y);
 
-        mapData.setTile(x, y, tile);
+		mapData.setTile(x, y, depth, tile);
 
-		Texture2D t = renderer.sprite.texture;
+		Texture2D t = worldLevels[depth].GetComponent<SpriteRenderer>().sprite.texture;
 
         drawTile(x, y, tile, t);
         t.Apply();
@@ -185,15 +136,18 @@ public class TiledMap : NetworkBehaviour {
     }
 
 
-	public void digFromWorldSpace(Vector2 location) {
-		RpcDigFromWorldSpace (location);
+	public void dig(GamePosition pos) {
+		RpcDig (pos.toStruct());
 	}
 
 	[ClientRpc]
-	public void RpcDigFromWorldSpace(Vector2 location) {
-		Vector2 mapCoords = getMapCoordsFromWorldSpace (location);
+	public void RpcDig(GamePosStruct posStruct) {
 
-		Tile[,] nona = getNonaTile ((int)mapCoords.x, (int)mapCoords.y);
+		GamePosition pos = GamePosition.ParseStruct (posStruct);
+
+		MapCoords mapCoords = pos.toMapCoords();
+
+		Tile[,] nona = getNonaTile (mapCoords);
 		Tile tile = nona [1, 1];
 
 		if (tile == null || !tile.GetType().Equals(typeof(Wall)))
@@ -201,57 +155,53 @@ public class TiledMap : NetworkBehaviour {
 				return;
 			}
 
-		Texture2D t = (Texture2D)renderer.sharedMaterials[0].mainTexture;
+		Texture2D t = worldLevels[pos.toMapCoords().depth].GetComponent<SpriteRenderer>().sprite.texture;
 
-		mapData.digWall ((int)mapCoords.x, (int)mapCoords.y);
+		mapData.digWall (mapCoords);
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				redrawTile ((int)mapCoords.x - 1 + i, (int)mapCoords.y - 1 + j);
+				redrawTile (mapCoords.x - 1 + i, mapCoords.y - 1 + j,  mapCoords.depth);
 			}
 		}
 	}
 
-	private void redrawTile(int x, int y) {
-		Tile t = mapData.getTile (x, y);
+	private void redrawTile(int x, int y, int depth) {
+		Tile t = mapData.getTile (x, y, depth);
 		if (t == null) {
 			return;
 		}
 
-		Texture2D tex = renderer.sprite.texture;
+		Texture2D tex = worldLevels[depth].GetComponent<SpriteRenderer>().sprite.texture;
 		drawTile (x, y, t, tex);
 		tex.Apply ();
 	}
+		
 
-	public Vector2 getMapCoordsFromWorldSpace(Vector2 location) {
-
-		Vector2 worldCoord = location - new Vector2(topLeftPoint.x, topLeftPoint.y);
-
-		int x = (int)Mathf.Floor(worldCoord.x);
-		int y = (int)Mathf.Floor(-worldCoord.y);
-
-		return new Vector2 (x, y);
+	private Vector2 getLevelTopLeftRefPoint(int depth) {
+		return topLeftPoint + depth * TILE_LENGTH * Vector2.down;
 	}
 
-    public Tile[,] getNonaTileFromWorldspace(Vector2 location)
+	public Tile[,] getNonaTileFromGamePosition(GamePosition pos)
     {
         Tile[,] nonaTile = new Tile[3, 3];
 
-        nonaTile[0, 0] = getTileFromWorldSpace(location + new Vector2(-1, -1));
-        nonaTile[1, 0] = getTileFromWorldSpace(location + new Vector2(0, -1));
-        nonaTile[2, 0] = getTileFromWorldSpace(location + new Vector2(1, -1));
-        nonaTile[0, 1] = getTileFromWorldSpace(location + new Vector2(-1, 0));
-        nonaTile[1, 1] = getTileFromWorldSpace(location + new Vector2(0, 0));
-        nonaTile[2, 1] = getTileFromWorldSpace(location + new Vector2(1, 0));
-        nonaTile[0, 2] = getTileFromWorldSpace(location + new Vector2(-1, 1));
-        nonaTile[1, 2] = getTileFromWorldSpace(location + new Vector2(0, 1));
-        nonaTile[2, 2] = getTileFromWorldSpace(location + new Vector2(1, 1));
+		nonaTile[0, 0] = getTileFromGamePosition(pos.add(new Vector2(-1, -1)));
+		nonaTile[1, 0] =  getTileFromGamePosition(pos.add(new Vector2(0, -1)));
+		nonaTile[2, 0] =  getTileFromGamePosition(pos.add(new Vector2(1, -1)));
+		nonaTile[0, 1] = getTileFromGamePosition(pos.add(new Vector2(-1, 0)));
+		nonaTile[1, 1] = getTileFromGamePosition(pos.add(new Vector2(0, 0)));
+		nonaTile[2, 1] = getTileFromGamePosition(pos.add(new Vector2(1, 0)));
+		nonaTile[0, 2] = getTileFromGamePosition(pos.add(new Vector2(-1, 1)));
+		nonaTile[1, 2] = getTileFromGamePosition(pos.add(new Vector2(0, 1)));
+		nonaTile[2, 2] = getTileFromGamePosition(pos.add(new Vector2(1, 1)));
 
         return nonaTile;
     }
 
-	public void loadMapData(MapData data) {
+/*	public void loadMapData(MapData data) {
 		mapData = data;
-		DrawMap ();
+		DrawPlane ();
 	}
+*/
 }

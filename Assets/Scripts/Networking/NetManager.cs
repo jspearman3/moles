@@ -86,7 +86,8 @@ public class NetManager : NetworkManager {
 	public void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
 		Debug.Log ("playerControllerId = " + playerControllerId + " logged in!");
-		GameObject player = (GameObject)GameObject.Instantiate(playerPrefab, new Vector3(3.5f,-3.5f,0), Quaternion.identity);
+		GameObject player = (GameObject)GameObject.Instantiate(playerPrefab);
+		player.GetComponent<MoleController> ().gamePos = new GamePosition (new Vector2 (3.5f, 3.5f), 1);
 		//playerMap.Add (playerControllerId, player);
 	
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);

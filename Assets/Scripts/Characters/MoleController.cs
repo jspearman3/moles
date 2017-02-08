@@ -3,36 +3,33 @@ using UnityEngine.Networking;
 using System.Collections;
 
 public class MoleController : Walker {
+	public static GameObject localPlayer;
+
 	public float speed = 1;
     public float digRange = 0.5f;
 
 	Animator anim;
 	Rigidbody2D rigid;
-    Camera mainCamera;
 
     Direction facing;
 	string idleAnimation;
 
 	// Use this for initialization
 	void Start () {
+		if (isLocalPlayer) {
+			localPlayer = gameObject;
+		}
+
 		idleAnimation = "idle_down";
         facing = Direction.South;
 		anim = GetComponent<Animator> ();
 		rigid = GetComponent<Rigidbody2D> ();
-        mainCamera = Camera.main;
 	}
 	
 	// Update is called once per frame
 	protected override void GameUpdate () {
         movement ();
         actions();
-        updateCamera();
-    }
-
-    private void updateCamera()
-    {
-        mainCamera.GetComponent<Transform>().position = new Vector3(trans.position.x, trans.position.y, 
-            -1);
     }
 
     private void actions()
@@ -43,6 +40,21 @@ public class MoleController : Walker {
 
             tryDig();
         }
+			
+		if (Input.GetKeyDown ("r")) {
+			if (gamePos.depth > 0) {
+				gamePos.depth -= 1;
+				CmdDig (gamePos.toStruct());
+			}
+
+		}
+
+		if (Input.GetKeyDown ("f")) {
+			if (gamePos.depth < map.mapDepth - 1) {
+				gamePos.depth += 1;
+				CmdDig (gamePos.toStruct());
+			}
+		}
     }
 
 
@@ -67,15 +79,15 @@ public class MoleController : Walker {
                 return;
         }
 
-        Vector2 digSpot = get2DPos() + digOffset;
+		GamePosition digSpot = gamePos.addWorld(digOffset);
 
-		CmdDig (digSpot);
+		CmdDig (digSpot.toStruct());
 
     }
 
 	[Command]
-	private void CmdDig(Vector2 digSpot) {
-		map.digFromWorldSpace (digSpot);
+	private void CmdDig(GamePosStruct digSpot) {
+		map.dig (GamePosition.ParseStruct(digSpot));
 	}
 
 

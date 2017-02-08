@@ -99,7 +99,7 @@ public class TiledMapTest : MonoBehaviour {
 	}
 
 	private void DrawMap() {
-		int texPixelWidth = mapData.tiles.GetLength(0) * Tile.tileWidth;
+		int texPixelWidth = mapData.tiles.GetLength(0) * Tile.tileWidthInPixels;
 
 
 
@@ -121,14 +121,14 @@ public class TiledMapTest : MonoBehaviour {
 	}
 
 	private void drawTile(int x, int y, Tile tile, Texture2D tex) {
-		int xStart = x * Tile.tileWidth;
+		int xStart = x * Tile.tileWidthInPixels;
 
-		int yStart = y * Tile.tileWidth;
+		int yStart = y * Tile.tileWidthInPixels;
 
 		Texture2D tileTex = Tile.getTile(tile.getSpriteIndex());
 
-		for (int i = 0; i < Tile.tileWidth; i++) {
-			for (int j = 0; j < Tile.tileWidth; j++) {
+		for (int i = 0; i < Tile.tileWidthInPixels; i++) {
+			for (int j = 0; j < Tile.tileWidthInPixels; j++) {
 
 				Color c = tileTex.GetPixel(j, i);
 

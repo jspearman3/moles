@@ -3,17 +3,25 @@ using UnityEngine.Networking;
 using System.Collections;
 
 public class GameEntity : NetworkBehaviour {
+
+
+
     [SyncVar]
-    private Vector3 syncPos;
+	public GamePosStruct syncPos;
+
+	public GamePosition gamePos = new GamePosition (new Vector2 (3.5f, 3.5f), 1);
 
     public float lerpRate = 15;
-
+	protected TiledMap map;
     protected Transform trans;
+
+	protected SpriteRenderer rend;
 
     // Use this for initialization
     void Awake()
     {
         trans = GetComponent<Transform>();
+		rend = GetComponent<SpriteRenderer> ();
         InitializeObject();
     }
 
@@ -22,33 +30,44 @@ public class GameEntity : NetworkBehaviour {
 
     }
 
-    // Update is called once per frame
+
     void Update()
     {
+		trans.position = gamePos.getRenderingPosition ();
+
+		if (rend != null) {
+			rend.sortingOrder = map.mapDepth - gamePos.toMapCoords().depth - 1;
+		}
 
         if (!isLocalPlayer)
         {
 
-            trans.position = Vector3.Lerp(trans.position, syncPos, Time.deltaTime * lerpRate);
+			GamePosition syncGamePos = GamePosition.ParseStruct (syncPos);
+			gamePos.planePosition = Vector2.Lerp(gamePos.planePosition, syncGamePos.planePosition, Time.deltaTime * lerpRate);
+			gamePos.depth = syncGamePos.depth;
+
+			if (rend.sortingOrder > MoleController.localPlayer.GetComponent<MoleController> ().rend.sortingOrder) {
+				rend.color = new Color (1, 1, 1, 0);
+			} else {
+				rend.color = new Color (1, 1, 1, 1);
+			}
+
+
             return;
         }
 
-        CmdTransmitPosition(trans.position);
+		CmdTransmitPosition(gamePos.toStruct());
 
         GameUpdate();
     }
 
     protected virtual void GameUpdate() { }
 
-    protected Vector2 get2DPos()
-    {
-        return new Vector2(trans.position.x, trans.position.y);
-    }
 
     [Command]
-    void CmdTransmitPosition(Vector3 pos)
+    void CmdTransmitPosition(GamePosStruct pos)
     {
-        syncPos = pos;
-    }
+		syncPos = pos;
+	}
 
 }

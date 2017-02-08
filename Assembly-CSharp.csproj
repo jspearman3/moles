@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Characters\Walker.cs" />
      <Compile Include="Assets\Scripts\MainMenuController.cs" />
      <Compile Include="Assets\Scripts\Networking\GameEntity.cs" />
+     <Compile Include="Assets\Scripts\Networking\GamePosition.cs" />
      <Compile Include="Assets\Scripts\Networking\NetManager.cs" />
      <Compile Include="Assets\Scripts\Testing\MapDataTest.cs" />
      <Compile Include="Assets\Scripts\Testing\MoleControllerTest.cs" />
@@ -59,7 +60,9 @@
      <Compile Include="Assets\Scripts\Util\Direction.cs" />
      <Compile Include="Assets\Scripts\World\CameraTrack.cs" />
      <Compile Include="Assets\Scripts\World\GameWorld.cs" />
+     <Compile Include="Assets\Scripts\World\MapCoords.cs" />
      <Compile Include="Assets\Scripts\World\MapData.cs" />
+     <Compile Include="Assets\Scripts\World\MapLevelRenderingController.cs" />
      <Compile Include="Assets\Scripts\World\TiledMap.cs" />
      <Compile Include="Assets\Scripts\World\Tiles\Connectable.cs" />
      <Compile Include="Assets\Scripts\World\Tiles\ConnectableVariantMap.cs" />
