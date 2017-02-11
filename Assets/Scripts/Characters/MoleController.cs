@@ -40,21 +40,24 @@ public class MoleController : Walker {
 
             tryDig();
         }
+
+		float ascendSensitivity = 1;
 			
-		if (Input.GetKeyDown ("r")) {
+		if (Input.GetKey ("r")) {
 			if (gamePos.depth > 0) {
-				gamePos.depth -= 1;
+				gamePos.depth -= ascendSensitivity * Time.deltaTime;
 				CmdDig (gamePos.toStruct());
 			}
 
 		}
 
-		if (Input.GetKeyDown ("f")) {
+		if (Input.GetKey ("f")) {
 			if (gamePos.depth < map.mapDepth - 1) {
-				gamePos.depth += 1;
+				gamePos.depth += ascendSensitivity * Time.deltaTime;
 				CmdDig (gamePos.toStruct());
 			}
 		}
+			
     }
 
 

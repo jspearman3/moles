@@ -1,12 +1,22 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Characters\MoleController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\World\TiledMap.cs">
     <Files>
-      <File FileName="Assets\Scripts\World\TiledMap.cs" Line="13" Column="2" />
-      <File FileName="Assets\Scripts\Networking\GameEntity.cs" Line="32" Column="53" />
-      <File FileName="Assets\Scripts\Characters\Walker.cs" Line="5" Column="2" />
-      <File FileName="Assets\Scripts\World\MapData.cs" Line="42" Column="25" />
-      <File FileName="Assets\Scripts\Characters\MoleController.cs" Line="29" Column="24" />
+      <File FileName="Assets\Scripts\World\TiledMap.cs" Line="9" Column="39" />
+      <File FileName="Assets\Scripts\Networking\GameEntity.cs" Line="48" Column="4" />
+      <File FileName="Assets\Scripts\Characters\Walker.cs" Line="19" Column="1" />
+      <File FileName="Assets\Scripts\World\MapData.cs" Line="56" Column="25" />
+      <File FileName="Assets\Scripts\Characters\MoleController.cs" Line="42" Column="10" />
+      <File FileName="Assets\Scripts\Networking\GamePosition.cs" Line="27" Column="43" />
+      <File FileName="Assets\Scripts\World\Tiles\Tile.cs" Line="5" Column="37" />
+      <File FileName="Assets\Scripts\World\MapCoords.cs" Line="19" Column="50" />
+      <File FileName="Assets\Scripts\Networking\NetManager.cs" Line="90" Column="99" />
+      <File FileName="Assets\Scripts\World\MapLevelRenderingController.cs" Line="31" Column="4" />
+      <File FileName="Assets\Scripts\World\CameraTrack.cs" Line="12" Column="7" />
+      <File FileName="Assets\Scripts\World\Tiles\Air.cs" Line="7" Column="30" />
+      <File FileName="Assets\Scripts\World\Tiles\Dirt.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\Tiles\Wall.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\Tiles\Stair.cs" Line="7" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

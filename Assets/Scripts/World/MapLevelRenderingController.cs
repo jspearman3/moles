@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class MapLevelRenderingController : MonoBehaviour {
 
-	const float DEPTH_VISION = 5.0f; 
+	const float DEPTH_VISION = 3.0f;
+	const float HEIGHT_VISION = 1.0f;
+
 
 	GameObject player = MoleController.localPlayer;
 	SpriteRenderer spriteRenderer;
+	public float levelDepth;
 
 	void Start() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -21,13 +24,33 @@ public class MapLevelRenderingController : MonoBehaviour {
 		}
 
 
-		int order = player.GetComponent<SpriteRenderer> ().sortingOrder;
+		float playerDepth = player.GetComponent<MoleController> ().gamePos.depth;
 
-		if (spriteRenderer.sortingOrder > order) {
-			spriteRenderer.color = new Color (1, 1, 1, 0);
+		if (levelDepth > playerDepth) {
+			float darkness = getIntensity(levelDepth - playerDepth, DEPTH_VISION);
+			spriteRenderer.color = new Color (darkness, darkness, darkness, 1);
+
 		} else {
-			spriteRenderer.color = new Color (1, 1, 1, 1);
+			float alpha = getIntensity(playerDepth - levelDepth, HEIGHT_VISION);
+			spriteRenderer.color = new Color (1, 1, 1, alpha);
 		}
 		
 	}
+
+	private float getIntensity(float diff, float max) {
+
+		float ratio = diff / max;
+
+		float norm = 1 - ratio;
+
+		if (norm > 1) {
+			
+			return 1;
+		} else if (norm < 0) {
+			return 0;
+		} else {
+			return norm;
+		}
+	}
+
 }

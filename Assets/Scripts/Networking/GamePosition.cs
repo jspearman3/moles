@@ -24,7 +24,7 @@ public class GamePosition {
 	//every level is 1 square offset from adjacent ones
 	public Vector2 getRenderingPosition() {
 		Vector2 worldPos = new Vector2 (planePosition.x, -planePosition.y);
-		return (worldPos + TiledMap.TILE_LENGTH * new Vector2 (0, -depth));
+		return (worldPos + TiledMap.LEVEL_OFFSET * new Vector2 (0, -depth));
 	}
 
 	public void descend(float amt) {

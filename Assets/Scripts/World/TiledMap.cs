@@ -5,7 +5,8 @@ using UnityEngine.Networking;
 //[RequireComponent(typeof(MeshFilter))]
 //[RequireComponent(typeof(MeshRenderer))]
 public class TiledMap : NetworkBehaviour {
-	public const float TILE_LENGTH = 1.0f; 
+	public const float TILE_LENGTH = 1.0f;
+	public const float LEVEL_OFFSET = 0.6f;
 
 	public int mapWidth = 100;
 	public int mapHeight = 100;
@@ -38,7 +39,8 @@ public class TiledMap : NetworkBehaviour {
 			GameObject worldLevel = new GameObject ("World depth " + i);
 			worldLevels [i] = worldLevel;
 			SpriteRenderer renderer = worldLevel.AddComponent<SpriteRenderer> ();
-			worldLevel.AddComponent<MapLevelRenderingController> ();
+			MapLevelRenderingController mlrc = worldLevel.AddComponent<MapLevelRenderingController> ();
+			mlrc.levelDepth = i;
 			worldLevel.transform.parent = gameObject.transform;
 			worldLevel.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, -90));
 			worldLevel.transform.position = getLevelTopLeftRefPoint(i);
@@ -179,7 +181,7 @@ public class TiledMap : NetworkBehaviour {
 		
 
 	private Vector2 getLevelTopLeftRefPoint(int depth) {
-		return topLeftPoint + depth * TILE_LENGTH * Vector2.down;
+		return topLeftPoint + depth * LEVEL_OFFSET * Vector2.down;
 	}
 
 	public Tile[,] getNonaTileFromGamePosition(GamePosition pos)

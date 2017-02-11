@@ -40,10 +40,26 @@ public class MapData {
 
 		returnMap.tiles [6,6,2] = new Dirt ();
 		returnMap.tiles [2,2,0] = new Dirt ();
-		returnMap.tiles [2,3,0] = new Dirt ();
+		returnMap.tiles [3,3,0] = new Air ();
+		returnMap.tiles [2,3,0] = new Air ();
+		returnMap.tiles [4,3,0] = new Air ();
+		returnMap.tiles [2,4,0] = new Air ();
+		returnMap.tiles [3,4,0] = new Air ();
+		returnMap.tiles [4,4,0] = new Air ();
+		returnMap.tiles [3,3,0] = new Air ();
+		returnMap.tiles [4,4,1] = new Air ();
+		returnMap.tiles [4,5,1] = new Air ();
+		returnMap.tiles [3,2,0] = new Dirt ();
+		returnMap.tiles [2,2,0] = new Dirt ();
+		returnMap.tiles [4,2,0] = new Dirt ();
+
+		returnMap.tiles[2, 2,0] = new Wall(WallType.Left);
+		returnMap.tiles[2, 3,0] = new Wall(WallType.Left);
+		returnMap.tiles[2, 4,0] = new Wall(WallType.Left);
+		returnMap.tiles[2, 5,0] = new Wall(WallType.Left);
 
 		returnMap.tiles[2, 2,1] = new Wall(WallType.Angle_In_UL);
-		returnMap.tiles[3, 2,1] = new Wall(WallType.Up);
+		returnMap.tiles[3, 2,1] = new Stair();
 		returnMap.tiles[4, 2,1] = new Wall(WallType.Up);
 		returnMap.tiles[5, 2,1] = new Wall(WallType.Up);
 		returnMap.tiles[6, 2,1] = new Wall(WallType.Angle_In_UR);
