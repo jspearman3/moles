@@ -53,10 +53,6 @@
      <Compile Include="Assets\Scripts\Networking\GameEntity.cs" />
      <Compile Include="Assets\Scripts\Networking\GamePosition.cs" />
      <Compile Include="Assets\Scripts\Networking\NetManager.cs" />
-     <Compile Include="Assets\Scripts\Testing\MapDataTest.cs" />
-     <Compile Include="Assets\Scripts\Testing\MoleControllerTest.cs" />
-     <Compile Include="Assets\Scripts\Testing\TiledMapTest.cs" />
-     <Compile Include="Assets\Scripts\Testing\WalkerTest.cs" />
      <Compile Include="Assets\Scripts\Util\Direction.cs" />
      <Compile Include="Assets\Scripts\World\CameraTrack.cs" />
      <Compile Include="Assets\Scripts\World\GameWorld.cs" />
@@ -66,14 +62,10 @@
      <Compile Include="Assets\Scripts\World\TiledMap.cs" />
      <Compile Include="Assets\Scripts\World\Tiles\Air.cs" />
      <Compile Include="Assets\Scripts\World\Tiles\Connectable.cs" />
-     <Compile Include="Assets\Scripts\World\Tiles\ConnectableVariantMap.cs" />
-     <Compile Include="Assets\Scripts\World\Tiles\Darkness.cs" />
      <Compile Include="Assets\Scripts\World\Tiles\Dirt.cs" />
-     <Compile Include="Assets\Scripts\World\Tiles\Stair.cs" />
+     <Compile Include="Assets\Scripts\World\Tiles\Ladder.cs" />
      <Compile Include="Assets\Scripts\World\Tiles\Tile.cs" />
      <Compile Include="Assets\Scripts\World\Tiles\Wall.cs" />
-     <Compile Include="Assets\Scripts\World\Tiles\WallType.cs" />
-     <Compile Include="Assets\Scripts\World\Tiles\transparentwall.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -5,6 +5,8 @@ public abstract class Tile {
 	public static int tileWidthInPixels = 16;
     public static Sprite sprite = Resources.Load<Sprite> ("Textures/Terrain/TerrainTiles");
 
+	protected int spriteIndex = 0; 
+
 	public abstract bool isWalkable ();
     public abstract int getSpriteIndex();
 

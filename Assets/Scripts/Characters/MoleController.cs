@@ -28,6 +28,7 @@ public class MoleController : Walker {
 	
 	// Update is called once per frame
 	protected override void GameUpdate () {
+		base.GameUpdate ();
         movement ();
         actions();
     }
@@ -36,51 +37,21 @@ public class MoleController : Walker {
     {
         if (Input.GetKeyDown("e"))
         {
-            //begin playing some animation and cooldown then:
 
             tryDig();
         }
 
 		float ascendSensitivity = 1;
 			
-		if (Input.GetKey ("r")) {
-			if (gamePos.depth > 0) {
-				gamePos.depth -= ascendSensitivity * Time.deltaTime;
-				CmdDig (gamePos.toStruct());
-			}
-
+		if (Input.GetKeyDown ("r")) {
+			tryPlaceDirt ();
 		}
-
-		if (Input.GetKey ("f")) {
-			if (gamePos.depth < map.mapDepth - 1) {
-				gamePos.depth += ascendSensitivity * Time.deltaTime;
-				CmdDig (gamePos.toStruct());
-			}
-		}
-			
     }
 
 
     private void tryDig()
     {
-        Vector2 digOffset;
-        switch (facing)
-        {
-            case Direction.North:
-                digOffset = new Vector2(0, digRange);
-                break;
-            case Direction.South:
-                digOffset = new Vector2(0, -digRange);
-                break;
-            case Direction.East:
-                digOffset = new Vector2(digRange, 0);
-                break;
-            case Direction.West:
-                digOffset = new Vector2(-digRange, 0);
-                break;
-            default:
-                return;
-        }
+		Vector2 digOffset = getActionOffset ();
 
 		GamePosition digSpot = gamePos.addWorld(digOffset);
 
@@ -88,9 +59,45 @@ public class MoleController : Walker {
 
     }
 
+	private void tryPlaceDirt()
+	{
+		Vector2 placeOffset = getActionOffset ();
+
+		GamePosition placeSpot = gamePos.addWorld(placeOffset);
+
+		CmdPlace (placeSpot.toStruct());
+	}
+
+	private Vector2 getActionOffset() {
+		Vector2 actionOffset = Vector2.zero;
+		switch (facing)
+		{
+		case Direction.North:
+			actionOffset = new Vector2(0, digRange);
+			break;
+		case Direction.South:
+			actionOffset = new Vector2(0, -digRange);
+			break;
+		case Direction.East:
+			actionOffset = new Vector2(digRange, 0);
+			break;
+		case Direction.West:
+			actionOffset = new Vector2(-digRange, 0);
+			break;
+		default:
+			return actionOffset;
+		}
+		return actionOffset;
+	}
+
 	[Command]
 	private void CmdDig(GamePosStruct digSpot) {
 		map.dig (GamePosition.ParseStruct(digSpot));
+	}
+
+	[Command]
+	private void CmdPlace(GamePosStruct placeSpot) {
+		map.place (GamePosition.ParseStruct(placeSpot));
 	}
 
 

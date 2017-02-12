@@ -14,6 +14,10 @@ public class MapCoords {
 		this.depth = depth;
 	}
 
+	public MapCoords add(int x=0, int y=0, int depth=0) {
+		return new MapCoords (this.x + x, this.y + y, this.depth + depth);
+	}
+
 	override
 	public string ToString() {
 		return "[" + x + ", " + y + ", " + depth + "]";

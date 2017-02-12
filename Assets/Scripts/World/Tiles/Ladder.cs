@@ -2,12 +2,12 @@
 using System.Collections;
 using System;
 
-public class Stair : Tile {
+public class Ladder : Tile {
 
-	private int spriteIndex = 49;
+	private int spriteIndex = 95;
 
 	public override bool isWalkable() {
-		return false;
+		return true;
 	}
 
 	public override int getSpriteIndex()

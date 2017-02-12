@@ -17,7 +17,7 @@ public class MapData {
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < width; j++) {
 				for (int k = 0; k < depth; k++) {
-					tiles [i, j, k] = new Wall (WallType.Filled);
+					tiles [i, j, k] = new Wall (ConnectableVariant.Full);
 				}
 			}
 		}
@@ -38,45 +38,70 @@ public class MapData {
 		returnMap.tiles [5,4,1] = new Dirt ();
 		returnMap.tiles [5,5,1] = new Dirt ();
 
-		returnMap.tiles [6,6,2] = new Dirt ();
-		returnMap.tiles [2,2,0] = new Dirt ();
-		returnMap.tiles [3,3,0] = new Air ();
-		returnMap.tiles [2,3,0] = new Air ();
-		returnMap.tiles [4,3,0] = new Air ();
-		returnMap.tiles [2,4,0] = new Air ();
-		returnMap.tiles [3,4,0] = new Air ();
-		returnMap.tiles [4,4,0] = new Air ();
-		returnMap.tiles [3,3,0] = new Air ();
-		returnMap.tiles [4,4,1] = new Air ();
-		returnMap.tiles [4,5,1] = new Air ();
+
+		returnMap.tiles[2, 2,1] = new Wall(ConnectableVariant.Angle_In_UL);
+		returnMap.tiles[3, 2,1] = new Wall(ConnectableVariant.Up);
+		returnMap.tiles[4, 2,1] = new Wall(ConnectableVariant.Up);
+		returnMap.tiles[5, 2,1] = new Wall(ConnectableVariant.Up);
+		returnMap.tiles[6, 2,1] = new Wall(ConnectableVariant.Angle_In_UR);
+
+
+
+		returnMap.tiles[2, 3,1] = new Wall(ConnectableVariant.Left);
+		returnMap.tiles[2, 4,1] = new Wall(ConnectableVariant.Left);
+		returnMap.tiles[2, 5,1] = new Wall(ConnectableVariant.Left);
+		returnMap.tiles[2, 6,1] = new Wall(ConnectableVariant.Angle_In_DL);
+
+		returnMap.tiles[3, 6,1] = new Wall(ConnectableVariant.Down);
+		returnMap.tiles[4, 6,1] = new Wall(ConnectableVariant.Down);
+		returnMap.tiles[5, 6,1] = new Wall(ConnectableVariant.Down);
+		returnMap.tiles[6, 6,1] = new Wall(ConnectableVariant.Angle_In_DR);
+
+		returnMap.tiles[6, 3,1] = new Wall(ConnectableVariant.Right);
+		returnMap.tiles[6, 4,1] = new Wall(ConnectableVariant.Right);
+		returnMap.tiles[6, 5,1] = new Wall(ConnectableVariant.Right);
+
+		returnMap.tiles[3, 3,1] = new Ladder();
+
+		returnMap.tiles[3, 3,0] = new Air(ConnectableVariant.None);
+
+
 		returnMap.tiles [3,2,0] = new Dirt ();
-		returnMap.tiles [2,2,0] = new Dirt ();
 		returnMap.tiles [4,2,0] = new Dirt ();
+		returnMap.tiles [4,3,0] = new Dirt ();
 
-		returnMap.tiles[2, 2,0] = new Wall(WallType.Left);
-		returnMap.tiles[2, 3,0] = new Wall(WallType.Left);
-		returnMap.tiles[2, 4,0] = new Wall(WallType.Left);
-		returnMap.tiles[2, 5,0] = new Wall(WallType.Left);
+		returnMap.tiles[2, 2,0] = new Wall(ConnectableVariant.Left);
+		returnMap.tiles[2, 3,0] = new Wall(ConnectableVariant.Left);
+		returnMap.tiles[3, 4,0] = new Wall(ConnectableVariant.Down);
+		returnMap.tiles[4, 4,0] = new Wall(ConnectableVariant.Down);
+		returnMap.tiles[5, 2,0] = new Wall(ConnectableVariant.Right);
+		returnMap.tiles[5, 3,0] = new Wall(ConnectableVariant.Right);
+		returnMap.tiles[3, 1,0] = new Wall(ConnectableVariant.Up);
+		returnMap.tiles[4, 1,0] = new Wall(ConnectableVariant.Up);
+		returnMap.tiles[2, 1,0] = new Wall(ConnectableVariant.Angle_In_UL);
+		returnMap.tiles[5, 1,0] = new Wall(ConnectableVariant.Angle_In_UR);
+		returnMap.tiles[2, 4,0] = new Wall(ConnectableVariant.Angle_In_DL);
+		returnMap.tiles[5, 4,0] = new Wall(ConnectableVariant.Angle_In_DR);
 
-		returnMap.tiles[2, 2,1] = new Wall(WallType.Angle_In_UL);
-		returnMap.tiles[3, 2,1] = new Stair();
-		returnMap.tiles[4, 2,1] = new Wall(WallType.Up);
-		returnMap.tiles[5, 2,1] = new Wall(WallType.Up);
-		returnMap.tiles[6, 2,1] = new Wall(WallType.Angle_In_UR);
+		returnMap.tiles[5, 4,1] = new Air(ConnectableVariant.Protrude_Up);
+		returnMap.tiles[5, 5,1] = new Air(ConnectableVariant.Protrude_Down);
+		returnMap.tiles [4,4,2] = new Dirt ();
+		returnMap.tiles [5,4,2] = new Ladder ();
+		returnMap.tiles [5,5,2] = new Dirt ();
+		returnMap.tiles [4,5,2] = new Dirt ();
 
-		returnMap.tiles[2, 3,1] = new Wall(WallType.Left);
-		returnMap.tiles[2, 4,1] = new Wall(WallType.Left);
-		returnMap.tiles[2, 5,1] = new Wall(WallType.Left);
-		returnMap.tiles[2, 6,1] = new Wall(WallType.Angle_In_DL);
-
-		returnMap.tiles[3, 6,1] = new Wall(WallType.Down);
-		returnMap.tiles[4, 6,1] = new Wall(WallType.Down);
-		returnMap.tiles[5, 6,1] = new Wall(WallType.Down);
-		returnMap.tiles[6, 6,1] = new Wall(WallType.Angle_In_DR);
-
-		returnMap.tiles[6, 3,1] = new Wall(WallType.Right);
-		returnMap.tiles[6, 4,1] = new Wall(WallType.Right);
-		returnMap.tiles[6, 5,1] = new Wall(WallType.Right);
+		returnMap.tiles[3, 4,2] = new Wall(ConnectableVariant.Left);
+		returnMap.tiles[3, 5,2] = new Wall(ConnectableVariant.Left);
+		returnMap.tiles[4, 6,2] = new Wall(ConnectableVariant.Down);
+		returnMap.tiles[5, 6,2] = new Wall(ConnectableVariant.Down);
+		returnMap.tiles[6, 4,2] = new Wall(ConnectableVariant.Right);
+		returnMap.tiles[6, 5,2] = new Wall(ConnectableVariant.Right);
+		returnMap.tiles[4, 3,2] = new Wall(ConnectableVariant.Up);
+		returnMap.tiles[5, 3,2] = new Wall(ConnectableVariant.Up);
+		returnMap.tiles[3, 3,2] = new Wall(ConnectableVariant.Angle_In_UL);
+		returnMap.tiles[6, 3,2] = new Wall(ConnectableVariant.Angle_In_UR);
+		returnMap.tiles[3, 6,2] = new Wall(ConnectableVariant.Angle_In_DL);
+		returnMap.tiles[6, 6,2] = new Wall(ConnectableVariant.Angle_In_DR);
 
 		return returnMap;
 	}
@@ -104,42 +129,48 @@ public class MapData {
 		return true;
 	}
 
-	public void digWall(MapCoords coords) {
-		digWall (coords.x, coords.y, coords.depth);
+	public bool smartSet(MapCoords coords, Tile tile) {
+		return smartSet (coords.x, coords.y, coords.depth, tile);
 	}
 
-    public void digWall(int x, int y, int depth)
+	//return whether redraw is needed
+    public bool smartSet(int x, int y, int depth, Tile newTile)
     {
-        Tile t = getTile(x, y, depth);
+        Tile tile = getTile(x, y, depth);
 
-        if (t == null)
+        if (tile == null || newTile == null)
         {
-            return;
+            return false;
         }
 
-        if (!t.GetType().Equals(typeof(Wall)))
-        {
-            return;
-        }
+		setTile(x, y, depth, newTile);
 
-		setTile(x, y, depth, new Dirt());
 
-		//update all surrounding walls
-		updateWall(x - 1, y - 1, depth);
-		updateWall(x, y - 1, depth);
-		updateWall(x + 1, y - 1, depth);
-		updateWall(x - 1, y, depth);
-		updateWall(x + 1, y, depth);
-		updateWall(x - 1, y + 1, depth);
-		updateWall(x, y + 1, depth);
-		updateWall(x + 1, y + 1, depth);
+		//if sprite is the same, no need to do graphical update
+		if (tile.getSpriteIndex () == newTile.getSpriteIndex ()) {
+			return false;
+		}
+
+		smartUpdate(x, y, depth);
+
+		//update all surrounding tiles
+		smartUpdate(x - 1, y - 1, depth);
+		smartUpdate(x, y - 1, depth);
+		smartUpdate(x + 1, y - 1, depth);
+		smartUpdate(x - 1, y, depth);
+		smartUpdate(x + 1, y, depth);
+		smartUpdate(x - 1, y + 1, depth);
+		smartUpdate(x, y + 1, depth);
+		smartUpdate(x + 1, y + 1, depth);
+
+		return true;
     }
-
-    private void updateWall(int x, int y, int depth)
+		
+    private void smartUpdate(int x, int y, int depth)
     {
-		Tile tile = getTile(x, y, depth);
+		ConnectableTile tile = getTile(x, y, depth) as ConnectableTile;
 
-        if (tile == null || !tile.GetType().Equals(typeof(Wall)))
+		if (tile == null)
         {
             return;
         }
@@ -156,196 +187,8 @@ public class MapData {
 		adjacencies[6] = getTile(x - 1, y + 1, depth);
 		adjacencies[7] = getTile(x - 1, y, depth);
 
-		bool[] adjacentWalls = new bool[8];
+        tile.updateVariant(adjacencies);
 
-		for (int i = 0; i < 8; i++) {
-			if (adjacencies [i] == null || !adjacencies [i].GetType ().Equals (typeof(Wall))) {
-				adjacentWalls [i] = false;
-			} else {
-				adjacentWalls [i] = true;
-			}
-		}
-			
-        Wall wall = (Wall) tile;
-
-        wall.setWallType(findWallTypeByAjacencies(adjacentWalls));
-
-    }
-
-    private WallType findWallTypeByAjacencies(bool[] adjacencies)
-    {
-		if (adjacencies.Length != 8) {
-			Debug.Log ("Cannot find wall without proper ajacency array");
-			return WallType.Down;
-		}
-
-		bool ul = adjacencies [0];
-		bool up = adjacencies [1];
-		bool ur = adjacencies [2];
-		bool right = adjacencies [3];
-		bool dr = adjacencies [4];
-		bool down = adjacencies [5];
-		bool dl = adjacencies [6];
-		bool left = adjacencies [7];
-
-
-		//This can be simplified by considering only up, right, down, left first. Use corners for special cases.
-		//45 total cases.
-
-		//no direct adjacencies ==> 1 posibility
-		if (!up && !right && !down && !left) {
-			return WallType.Mound;
-		}
-
-
-		//one adjacent wall ==> 4 possibilities
-		if (up && !right && !down && !left) {
-			return WallType.Protrude_Down;
-		}
-		if (!up && right && !down && !left) {
-			return WallType.Protrude_Left;
-		}
-		if (!up && !right && down && !left) {
-			return WallType.Protrude_Up;
-		}
-		if (!up && !right && !down && left) {
-			return WallType.Protrude_Right;
-		}
-
-
-		//Two adjacent walls
-		//case 1: opposite each other ==> 2 possibilities
-		if (up && !right && down && !left) {
-			return WallType.Strip_Vert;
-		}
-		if (!up && right && !down && left) {
-			return WallType.Strip_Horiz;
-		}
-
-		//case2: walls adjacent ==> 4 possibilities
-		if (up && right && !down && !left) {
-			if (ur) {
-				return WallType.Angle_Out_DL;
-			} else {
-				return WallType.Angle_Skinny_DL;
-			}
-
-		}
-		if (!up && right && down && !left) {
-			if (dr) {
-				return WallType.Angle_Out_UL;
-			} else {
-				return WallType.Angle_Skinny_UL;
-			}
-		}
-		if (!up && !right && down && left) {
-			if (dl) {
-				return WallType.Angle_Out_UR;
-			} else {
-				return WallType.Angle_Skinny_UR;
-			}
-		}
-		if (up && !right && !down && left) {
-			if (ul) {
-				return WallType.Angle_Out_DR;
-			} else {
-				return WallType.Angle_Skinny_DR;
-			}
-		}
-
-		//Three walls
-		if (up && right && !down && left) {
-			if (ul && ur) {
-				return WallType.Up;
-			} else if (ul) {
-				return WallType.T_Dark2_Up;
-			} else if (ur) {
-				return WallType.T_Dark1_Up;
-			} else {
-				return WallType.T_Up;
-			}
-		}
-		if (up && right && down && !left) {
-			if (ur && dr) {
-				return WallType.Right;
-			} else if (ur) {
-				return WallType.T_Dark2_Right;
-			} else if (dr) {
-				return WallType.T_Dark1_Right;
-			} else {
-				return WallType.T_Right;
-			}
-		}
-		if (!up && right && down && left) {
-			if (dr && dl) {
-				return WallType.Down;
-			} else if (dr) {
-				return WallType.T_Dark2_Down;
-			} else if (dl) {
-				return WallType.T_Dark1_Down;
-			} else {
-				return WallType.T_Down;
-			}
-		}
-		if (up && !right && down && left) {
-			if (dl && ul) {
-				return WallType.Left;
-			} else if (dl) {
-				return WallType.T_Dark2_Left;
-			} else if (ul) {
-				return WallType.T_Dark1_Left;
-			} else {
-				return WallType.T_Left;
-			}
-		}
-
-		if (up && right && down && left) {
-			//cases where all filled and all empty. Filled first because most common situation
-			if (ul && ur && dr && dl) {
-				return WallType.Filled;
-			} else if (!ul && !ur && !dr && !dl) {
-				return WallType.All_Way;
-
-				//Do cases where one corner wall
-			} else if (ul && !ur && !dr && !dl) {
-				return WallType.All_Way_Dark_UL;
-			} else if (!ul && ur && !dr && !dl) {
-				return WallType.All_Way_Dark_UR;
-			} else if (!ul && !ur && dr && !dl) {
-				return WallType.All_Way_Dark_DR;
-			} else if (!ul && !ur && !dr && dl) {
-				return WallType.All_Way_Dark_DL;
-
-				//cases with 2 same-side corners
-			} else if (ul && ur && !dr && !dl) {
-				return WallType.T_DarkTop_Up;
-			} else if (!ul && ur && dr && !dl) {
-				return WallType.T_DarkTop_Right;
-			} else if (!ul && !ur && dr && dl) {
-				return WallType.T_DarkTop_Down;
-			} else if (ul && !ur && !dr && dl) {
-				return WallType.T_DarkTop_Left;
-
-				//cases with opposite corners
-			} else if (ul && !ur && dr && !dl) {
-				return WallType.Diagnal_UL_DR;
-			} else if (!ul && ur && !dr && dl) {
-				return WallType.Diagnal_UR_DL;
-
-				//cases with 3 filled corners 
-			} else if (!ul && ur && dr && dl) {
-				return WallType.Angle_In_DR;
-			} else if (ul && !ur && dr && dl) {
-				return WallType.Angle_In_DL;
-			} else if (ul && ur && !dr && dl) {
-				return WallType.Angle_In_UL;
-			} else if (ul && ur && dr && !dl) {
-				return WallType.Angle_In_UR;
-			}
-		}
-
-		Debug.Log ("COULDNT FIND WALL TYPE! FIXME!");
-        return WallType.Down;
     }
 
 	public void setTile(int x, int y, int depth, Tile tile)

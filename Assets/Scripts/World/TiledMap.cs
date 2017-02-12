@@ -142,25 +142,113 @@ public class TiledMap : NetworkBehaviour {
 		RpcDig (pos.toStruct());
 	}
 
+	public void place(GamePosition pos) {
+		RpcPlace (pos.toStruct());
+	}
+
+	[ClientRpc]
+	public void RpcPlace(GamePosStruct posStruct) {
+
+		GamePosition pos = GamePosition.ParseStruct (posStruct);
+		MapCoords mapCoords = pos.toMapCoords();
+
+
+		Tile tile = mapData.getTile (mapCoords);
+
+		bool redraw = false;
+
+		switch (tile.GetType().Name)
+		{
+		case "Wall":
+			Wall wall = (Wall)tile;
+
+			if (wall.getSpriteIndex() == 26 ) {
+
+				MapCoords upperTileCoords = mapCoords.add (0, 1, -1);
+				if (upperTileCoords.depth < 0) {
+					return;
+				}
+				bool wasChange = mapData.smartSet (upperTileCoords, new Air (ConnectableVariant.None));
+				if (wasChange) {
+					redrawNonaTile (upperTileCoords);
+				}
+
+				mapData.smartSet (mapCoords.add(y:1), new Ladder ());
+				redrawNonaTile (mapCoords);
+
+
+			}
+
+			break;
+		case "Dirt":
+			mapData.smartSet (mapCoords, new Wall (ConnectableVariant.None));
+			redrawNonaTile (mapCoords);
+
+			MapCoords upperCoord = mapCoords.add (depth: -1);
+			Tile upperTile = getNonaTile (upperCoord) [1, 1];
+			if (upperTile == null) {
+				return;
+			}
+			if (upperTile.GetType().Equals(typeof(Air))) {
+				mapData.smartSet (upperCoord, new Dirt());
+				redrawNonaTile (upperCoord);
+			}
+
+			break;
+		case "Air":
+			mapData.smartSet (mapCoords, new Dirt());
+			redrawNonaTile (mapCoords);
+			break;
+		case "Ladder":
+			mapData.smartSet (mapCoords, new Dirt());
+			redrawNonaTile (mapCoords);
+			break;
+		default:
+			return;
+		}
+			
+
+	}
+
 	[ClientRpc]
 	public void RpcDig(GamePosStruct posStruct) {
 
 		GamePosition pos = GamePosition.ParseStruct (posStruct);
-
 		MapCoords mapCoords = pos.toMapCoords();
 
-		Tile[,] nona = getNonaTile (mapCoords);
-		Tile tile = nona [1, 1];
 
-		if (tile == null || !tile.GetType().Equals(typeof(Wall)))
-			{
-				return;
+		Tile tile = mapData.getTile (mapCoords);
+
+		bool redraw = false;
+		if (tile.GetType ().Equals (typeof(Wall))) {
+			redraw = mapData.smartSet (mapCoords, new Dirt ());
+		} else if (tile.GetType ().Equals (typeof(Dirt))) {
+			MapCoords lowerCoords = mapCoords.add (depth: 1);
+			Tile lowTile = mapData.getTile (lowerCoords);
+			if (lowTile != null && lowTile.GetType ().Equals (typeof(Wall))) {
+				bool redrawLower = mapData.smartSet (lowerCoords, new Dirt());
+
+				if (redrawLower) {
+					redrawNonaTile (lowerCoords);
+				}
+
+
 			}
 
-		Texture2D t = worldLevels[pos.toMapCoords().depth].GetComponent<SpriteRenderer>().sprite.texture;
+			if (lowTile != null) {
+				redraw = mapData.smartSet (mapCoords, new Air (ConnectableVariant.None));
+			}
 
-		mapData.digWall (mapCoords);
 
+		}
+
+		if (redraw) {
+			redrawNonaTile (mapCoords);
+		}
+
+	}
+
+	private void redrawNonaTile(MapCoords mapCoords) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				redrawTile (mapCoords.x - 1 + i, mapCoords.y - 1 + j,  mapCoords.depth);

@@ -4,12 +4,10 @@ using System.Collections;
 
 public class GameEntity : NetworkBehaviour {
 
-
-
     [SyncVar]
 	public GamePosStruct syncPos;
 
-	public GamePosition gamePos = new GamePosition (new Vector2 (3.5f, 3.5f), 1);
+	public GamePosition gamePos = new GamePosition (new Vector2 (3.5f, 3.5f), 1.5f);
 
     public float lerpRate = 15;
 	protected TiledMap map;
