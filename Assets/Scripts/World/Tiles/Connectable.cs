@@ -15,7 +15,7 @@ public abstract class ConnectableTile : Tile {
 		spriteIndex = ConnectableVariantDictionary[type];
 	}
 
-	public void updateVariant(Tile[] adjacencies) {
+	public virtual void updateVariant(Tile[] adjacencies) {
 		ConnectableVariant variant = findConnectableVariant (adjacencies, this.GetType ());
 		setConnectableVariant (variant);
 	}

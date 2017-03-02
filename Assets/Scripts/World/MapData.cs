@@ -26,7 +26,7 @@ public class MapData {
 
 	//default 3x3 area in 40x40 map
 	public static MapData buildDefaultMap() {
-		MapData returnMap = new MapData (40, 40, 3);
+		MapData returnMap = new MapData (40, 40, 10);
 
 		returnMap.tiles [3,3,1] = new Dirt ();
 		returnMap.tiles [3,4,1] = new Dirt ();
@@ -62,6 +62,8 @@ public class MapData {
 		returnMap.tiles[6, 5,1] = new Wall(ConnectableVariant.Right);
 
 		returnMap.tiles[3, 3,1] = new Ladder();
+		returnMap.tiles[5, 3,1] = new Ramp(96);
+		returnMap.tiles[5, 2,1] = new Ramp(100);
 
 		returnMap.tiles[3, 3,0] = new Air(ConnectableVariant.None);
 

@@ -1,17 +1,23 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\World\MapData.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\World\MapLevelRenderingController.cs">
     <Files>
-      <File FileName="Assets\Scripts\Networking\NetManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\World\MapLevelRenderingController.cs" Line="31" Column="66" />
-      <File FileName="Assets\Scripts\World\CameraTrack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\Tiles\Wall.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\World\Tiles\Air.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\World\Tiles\Dirt.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\World\Tiles\Wall.cs" Line="96" Column="35" />
-      <File FileName="Assets\Scripts\World\Tiles\Stair.cs" Line="10" Column="15" />
-      <File FileName="Assets\Scripts\World\Tiles\transparentwall.cs" Line="7" Column="31" />
-      <File FileName="Assets\Scripts\World\Tiles\Connectable.cs" Line="85" Column="75" />
-      <File FileName="Assets\Scripts\World\MapData.cs" Line="20" Column="57" />
+      <File FileName="Assets\Scripts\World\Tiles\Connectable.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\MapData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\TiledMap.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\Tiles\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\MapCoords.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Networking\GameEntity.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Characters\Walker.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Characters\MoleController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Networking\GamePosition.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\Tiles\Ladder.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\GameWorld.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\Tiles\Ramp.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\World\MapLevelRenderingController.cs" Line="7" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

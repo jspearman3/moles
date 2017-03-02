@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapLevelRenderingController : MonoBehaviour {
 
-	const float DEPTH_VISION = 3.0f;
+	const float DEPTH_VISION = 5.0f;
 	const float HEIGHT_VISION = 1.0f;
 
 
