@@ -49,10 +49,16 @@
      <Compile Include="Assets\Scripts\Characters\MoleController.cs" />
      <Compile Include="Assets\Scripts\Characters\Player.cs" />
      <Compile Include="Assets\Scripts\Characters\Walker.cs" />
+     <Compile Include="Assets\Scripts\Inventory\Inventory.cs" />
+     <Compile Include="Assets\Scripts\Inventory\Items\DirtItem.cs" />
+     <Compile Include="Assets\Scripts\Inventory\Items\Item.cs" />
+     <Compile Include="Assets\Scripts\Inventory\Items\RockItem.cs" />
      <Compile Include="Assets\Scripts\MainMenuController.cs" />
      <Compile Include="Assets\Scripts\Networking\GameEntity.cs" />
      <Compile Include="Assets\Scripts\Networking\GamePosition.cs" />
      <Compile Include="Assets\Scripts\Networking\NetManager.cs" />
+     <Compile Include="Assets\Scripts\UI\ItemBar.cs" />
+     <Compile Include="Assets\Scripts\UI\ItemInventorySlot.cs" />
      <Compile Include="Assets\Scripts\Util\Direction.cs" />
      <Compile Include="Assets\Scripts\World\CameraTrack.cs" />
      <Compile Include="Assets\Scripts\World\GameWorld.cs" />

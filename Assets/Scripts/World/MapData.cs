@@ -62,8 +62,7 @@ public class MapData {
 		returnMap.tiles[6, 5,1] = new Wall(ConnectableVariant.Right);
 
 		returnMap.tiles[3, 3,1] = new Ladder();
-		returnMap.tiles[5, 3,1] = new Ramp(96);
-		returnMap.tiles[5, 2,1] = new Ramp(100);
+
 
 		returnMap.tiles[3, 3,0] = new Air(ConnectableVariant.None);
 
