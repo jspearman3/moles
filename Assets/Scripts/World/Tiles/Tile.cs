@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public abstract class Tile {
 	public static int tileWidthInPixels = 16;
@@ -47,4 +48,8 @@ public abstract class Tile {
 
         return tex;
     }
+
+	virtual public Dictionary<Item, int> droppedItemsOnDestroy() {
+		return new Dictionary<Item,int> ();
+	}
 }

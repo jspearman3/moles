@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Walker : GameEntity {
-
-	protected const float FALL_SPEED = 4; 
+public abstract class Walker : GravityObject {
 
     protected float width = 0;
     protected float height = 0;
@@ -12,7 +10,7 @@ public abstract class Walker : GameEntity {
 
     protected override void InitializeObject()
     {
-        map = GameObject.FindGameObjectWithTag("WorldMap").GetComponent<TiledMap>();
+		base.InitializeObject ();
     }
 
     protected void Move(Vector2 translation)
@@ -62,34 +60,17 @@ public abstract class Walker : GameEntity {
 
 	override
 	protected void GameUpdate() { 
+		base.GameUpdate ();
 
-		if (!onLadder) {
-			applyGravity ();
+		if (onLadder) {
+			gravityEnabled = false;
+		} else {
+			gravityEnabled = true;
 		}
 
 
 	
 	}
 
-	private void applyGravity() {
-		Tile currentTile = map.getTileFromGamePosition (gamePos);
-		float floorDepth = Mathf.Ceil(gamePos.depth);
-
-		if (currentTile.GetType().Equals(typeof(Air))) {
-			fall();
-		} else {
-			if (gamePos.toMapCoords().depth - gamePos.depth > 0.0) {
-				fall();
-			}
-
-			if (gamePos.depth > floorDepth) {
-				gamePos.depth = floorDepth;
-			}
-		}
-	}
-
-	private void fall() {
-		gamePos.depth += FALL_SPEED * Time.deltaTime;
-	}
 
 }

@@ -5,6 +5,8 @@ using System.Collections;
 public class MoleController : Walker {
 	public static GameObject localPlayer;
 
+	private ItemBar itembar; 
+
 	public float speed = 1;
     public float digRange = 0.5f;
 
@@ -20,6 +22,8 @@ public class MoleController : Walker {
 			localPlayer = gameObject;
 		}
 
+		itembar = GameObject.FindGameObjectWithTag ("ItemBar").GetComponent<ItemBar> ();
+
 		idleAnimation = "idle_down";
         facing = Direction.South;
 		anim = GetComponent<Animator> ();
@@ -28,6 +32,9 @@ public class MoleController : Walker {
 	
 	// Update is called once per frame
 	protected override void GameUpdate () {
+		if (!isLocalPlayer)
+			return;
+
 		base.GameUpdate ();
         movement ();
         actions();
@@ -141,8 +148,15 @@ public class MoleController : Walker {
 
 		return newAnim;
 
-
-
+	}
+		
+	[ClientRpc]
+	public void RpcPickUpItem(string itemCode) {
+		if (isLocalPlayer) {
+			Item dummy = new RockItem();
+			itembar.addItem (dummy.Decode (itemCode));
+		}
+			
 	}
 		
 }

@@ -7,7 +7,7 @@ public class GameEntity : NetworkBehaviour {
     [SyncVar]
 	public GamePosStruct syncPos;
 
-	public GamePosition gamePos = new GamePosition (new Vector2 (3.5f, 3.5f), 1.5f);
+	public GamePosition gamePos;
 
     public float lerpRate = 15;
 	protected TiledMap map;
@@ -15,33 +15,40 @@ public class GameEntity : NetworkBehaviour {
 
 	protected SpriteRenderer rend;
 
+	private bool firstSync = false;
+
     // Use this for initialization
     void Awake()
     {
         trans = GetComponent<Transform>();
 		rend = GetComponent<SpriteRenderer> ();
-        InitializeObject();
     }
 
     protected virtual void InitializeObject()
     {
-
+		map = GameObject.FindGameObjectWithTag("WorldMap").GetComponent<TiledMap>();
+		gamePos = GamePosition.ParseStruct (syncPos);
     }
 
 
     void Update()
     {
+		if (!firstSync) {
+			InitializeObject();
+			firstSync = true;
+		}
+
+
 		trans.position = gamePos.getRenderingPosition ();
 
 		if (rend != null) {
 			rend.sortingOrder = map.mapDepth - gamePos.toMapCoords().depth - 1;
 		}
 
-        if (!isLocalPlayer)
-        {
+		if (!isLocalPlayer) {
 
 			GamePosition syncGamePos = GamePosition.ParseStruct (syncPos);
-			gamePos.planePosition = Vector2.Lerp(gamePos.planePosition, syncGamePos.planePosition, Time.deltaTime * lerpRate);
+			gamePos.planePosition = Vector2.Lerp (gamePos.planePosition, syncGamePos.planePosition, Time.deltaTime * lerpRate);
 			gamePos.depth = syncGamePos.depth;
 
 			if (rend.sortingOrder > MoleController.localPlayer.GetComponent<MoleController> ().rend.sortingOrder) {
@@ -49,12 +56,11 @@ public class GameEntity : NetworkBehaviour {
 			} else {
 				rend.color = new Color (1, 1, 1, 1);
 			}
+				
 
-
-            return;
-        }
-
-		CmdTransmitPosition(gamePos.toStruct());
+		} else {
+			CmdTransmitPosition(gamePos.toStruct());
+		}
 
         GameUpdate();
     }

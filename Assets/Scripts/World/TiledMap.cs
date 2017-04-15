@@ -16,7 +16,7 @@ public class TiledMap : NetworkBehaviour {
 
 	private MapData mapData;
 
-
+	public GameObject itemPrefab;
 
     private Vector2 topLeftPoint;
 	public GameObject[] worldLevels;
@@ -139,6 +139,27 @@ public class TiledMap : NetworkBehaviour {
 
 
 	public void dig(GamePosition pos) {
+		MapCoords mapCoords = pos.toMapCoords();
+	
+		Tile tile = mapData.getTile (mapCoords);
+
+		if (tile.GetType ().Equals (typeof(Wall))) {
+			GameObject item = GameObject.Instantiate (itemPrefab);
+			ItemEntity ie = item.GetComponent<ItemEntity> ();
+			ie.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
+			ie.identity = new RockItem();
+			ie.syncPos = ie.gamePos.toStruct ();
+			NetworkServer.Spawn (item);
+
+
+			GameObject item2 = GameObject.Instantiate (itemPrefab);
+			ItemEntity ie2 = item2.GetComponent<ItemEntity> ();
+			ie2.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
+			ie2.identity = new DirtItem();
+			ie2.syncPos = ie2.gamePos.toStruct ();
+			NetworkServer.Spawn (item2);
+		}
+			
 		RpcDig (pos.toStruct());
 	}
 

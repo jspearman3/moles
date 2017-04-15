@@ -18,6 +18,10 @@ public class MapCoords {
 		return new MapCoords (this.x + x, this.y + y, this.depth + depth);
 	}
 
+	public GamePosition toGamePosition() {
+		return new GamePosition (new Vector2 (x + 0.5f, y + 0.5f), depth);
+	}
+
 	override
 	public string ToString() {
 		return "[" + x + ", " + y + ", " + depth + "]";
