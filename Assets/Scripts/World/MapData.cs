@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class MapData {
+using UnityEngine.Networking;
+public class MapData : MessageBase {
 	
 	public Tile[,,] tiles;
 
@@ -201,4 +201,30 @@ public class MapData {
 
         tiles[x, y, depth] = tile;
     }
+
+	public override void Deserialize(NetworkReader reader)
+	{
+
+		for (int x = 0; x < tiles.GetLength (0); x++) {
+			for (int y = 0; y < tiles.GetLength (1); y++) {
+				for (int z = 0; z < tiles.GetLength (2); z++) {
+					string encodedTile = System.Text.Encoding.Default.GetString (reader.ReadBytesAndSize ());
+					Tile tile = new Dirt ().Decode (encodedTile);
+					tiles [x, y, z] = tile;
+				}
+			}
+		}
+	}
+
+	// This method would be generated
+	public override void Serialize(NetworkWriter writer)
+	{
+		for (int x = 0; x < tiles.GetLength (0); x++) {
+			for (int y = 0; y < tiles.GetLength (1); y++) {
+				for (int z = 0; z < tiles.GetLength (2); z++) {
+					writer.WriteBytesFull (System.Text.Encoding.Default.GetBytes(tiles [x,y,z].Encode ()));
+				}
+			}
+		}
+	}
 }

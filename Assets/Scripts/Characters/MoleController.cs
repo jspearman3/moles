@@ -5,8 +5,6 @@ using System.Collections;
 public class MoleController : Walker {
 	public static GameObject localPlayer;
 
-	private ItemBar itembar; 
-
 	public float speed = 1;
     public float digRange = 0.5f;
 
@@ -21,8 +19,6 @@ public class MoleController : Walker {
 		if (isLocalPlayer) {
 			localPlayer = gameObject;
 		}
-
-		itembar = GameObject.FindGameObjectWithTag ("ItemBar").GetComponent<ItemBar> ();
 
 		idleAnimation = "idle_down";
         facing = Direction.South;
@@ -148,15 +144,6 @@ public class MoleController : Walker {
 
 		return newAnim;
 
-	}
-		
-	[ClientRpc]
-	public void RpcPickUpItem(string itemCode) {
-		if (isLocalPlayer) {
-			Item dummy = new RockItem();
-			itembar.addItem (dummy.Decode (itemCode));
-		}
-			
 	}
 		
 }

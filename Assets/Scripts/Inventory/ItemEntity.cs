@@ -40,8 +40,9 @@ public class ItemEntity : GravityObject {
 			float planeDiff = (gamePos.planePosition - playerController.gamePos.planePosition).magnitude;
 
 			if (heightDiff < HEIGHT_CUTOFF && planeDiff < PICK_UP_DISTANCE) {
-				playerController.RpcPickUpItem (identity.Encode());
-
+				Player p = player.GetComponent<Player> ();
+				player.GetComponent<Player> ().info.belt.addItem (identity);
+				p.RpcPickUpItem (identity.Encode());
 				NetworkServer.Destroy (gameObject);
 			}
 		}

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public abstract class Tile {
+public abstract class Tile : IMessagable<Tile> {
 	public static int tileWidthInPixels = 16;
     public static Sprite sprite = Resources.Load<Sprite> ("Textures/Terrain/TerrainTiles");
 
@@ -51,5 +52,33 @@ public abstract class Tile {
 
 	virtual public Dictionary<Item, int> droppedItemsOnDestroy() {
 		return new Dictionary<Item,int> ();
+	}
+
+	public static Tile newTileFromIndex(int index) {
+		if (index <= 46) {
+			ConnectableVariant variant = (ConnectableVariant)index;
+			return new Wall (variant);
+			//return new Dirt();
+		} else if (index <= 47) {
+			return new Dirt ();
+		} else if (index <= 94) {
+			ConnectableVariant variant = (ConnectableVariant)index - 48;
+			return new Air (variant);
+		} else if (index <= 95) {
+			return new Ladder ();
+		} else if (index <= 96) {
+			return new Ramp(96);
+		} else {
+			return null;
+		}
+	}
+
+	public string Encode() {
+		return spriteIndex.ToString();
+	}
+
+	public Tile Decode(string s) {
+		int index = System.Int32.Parse (s);
+		return Tile.newTileFromIndex (index);
 	}
 }

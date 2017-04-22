@@ -10,6 +10,11 @@ public abstract class ConnectableTile : Tile {
 		spriteIndex =  ConnectableVariantDictionary[type];
 	}
 
+	public ConnectableTile(int enumNum) {
+		ConnectableVariant variant = (ConnectableVariant)enumNum;
+		spriteIndex = ConnectableVariantDictionary [variant];
+	}
+
 	public void setConnectableVariant(ConnectableVariant type)
 	{
 		spriteIndex = ConnectableVariantDictionary[type];

@@ -4,7 +4,9 @@ using System;
 
 public class Ladder : Tile {
 
-	private int spriteIndex = 95;
+	public Ladder() {
+		spriteIndex = 95;
+	}
 
 	public override bool isWalkable() {
 		return true;

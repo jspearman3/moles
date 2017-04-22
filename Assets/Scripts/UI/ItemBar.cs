@@ -2,60 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ItemBar : MonoBehaviour {
 
 	int position = 0;
-	const int NUM_SLOTS = 10;
 	float dist_between_slots = 0;
 	float startingX = 0;
 	public bool inputEnable = true;
 
 	public Transform selecticle;
 
-	private ItemInventorySlot[] slots;
+	private ItemInventorySlotUI[] slots;
 
 	public GameObject inventorySlotPrefab;
 
-	// Use this for initialization
-	void Start () {
-		
+	private Inventory inventory;
 
-		RectTransform r = GetComponent<RectTransform> ();
-		dist_between_slots = r.rect.width / NUM_SLOTS;
-		startingX = r.rect.xMin + dist_between_slots / 2;
 
-		slots = new ItemInventorySlot [NUM_SLOTS];
-
-		for (int i = 0; i < NUM_SLOTS; i++) {
-			GameObject iconObj = GameObject.Instantiate (inventorySlotPrefab, GetComponent<Transform> ());
-			RectTransform iconTrans = iconObj.GetComponent<RectTransform> ();
-			iconTrans.localPosition = new Vector2 (startingX + dist_between_slots * i, r.rect.center.y);
-			slots [i] = iconObj.GetComponent<ItemInventorySlot> ();
-
-		}
+	void Start() {
+		loadInventory (new Inventory (10));
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (inputEnable)
 			handleInput();
 		float targetXPos = startingX + dist_between_slots * position;
 
 		selecticle.localPosition = Vector2.Lerp (selecticle.localPosition, new Vector2 (targetXPos, selecticle.localPosition.y), .2f);
-
-		if (Input.GetKeyDown (KeyCode.Y)) {
-			addItem (new RockItem ());
-			Debug.Log ("added rock");
-		} else if (Input.GetKeyDown (KeyCode.U)) {
-			addItem (new DirtItem ());
-			Debug.Log ("added dirt");
-		} else if (Input.GetKeyDown (KeyCode.H)) {
-			removeFromSlot (0);
-		} else if (Input.GetKeyDown (KeyCode.J)) {
-			removeFromSlot (1);
-		}
-
 
 	}
 
@@ -82,112 +56,43 @@ public class ItemBar : MonoBehaviour {
 			position = 9;
 		}
 
+		if (Input.GetMouseButtonDown (0)) {
+			
+		}
+
 	}
 
-	private void updateUI() {
-		for (int i = 0; i < NUM_SLOTS; i++) {
-			ItemInventorySlot slot = slots [i];
+	public void loadInventory(Inventory inventory) {
+		this.inventory = inventory;
+
+		RectTransform r = GetComponent<RectTransform> ();
+		ItemInventorySlot[] slotBackings = inventory.getSlots ();
+		dist_between_slots = r.rect.width / slotBackings.Length;
+		startingX = r.rect.xMin + dist_between_slots / 2;
+
+		slots = new ItemInventorySlotUI [slotBackings.Length];
+
+		for (int i = 0; i < slotBackings.Length; i++) {
+			GameObject iconObj = GameObject.Instantiate (inventorySlotPrefab, GetComponent<Transform> ());
+			RectTransform iconTrans = iconObj.GetComponent<RectTransform> ();
+			iconTrans.localPosition = new Vector2 (startingX + dist_between_slots * i, r.rect.center.y);
+			ItemInventorySlotUI slot = iconObj.GetComponent<ItemInventorySlotUI> ();
+			slot.setSlotBackingInfo (slotBackings[i]);
+			slot.setItemBar (this);
+			slots [i] = slot;
+		}
+
+		updateUI ();
+	}
+
+	public void updateUI() {
+		for (int i = 0; i < slots.Length; i++) {
+			ItemInventorySlotUI slot = slots [i];
 			slot.updateUI();
 		}
 	}
 
-
-		
-	private ItemInventorySlot getFirstSlotForItem(Item item) {
-		foreach (ItemInventorySlot s in slots) {
-			if (s.isType(item)) {
-				return s;
-			}
-		}
-
-		foreach (ItemInventorySlot s in slots) {
-			if (s.isEmpty()) {
-				return s;
-			}
-		}
-
-		return null;
-	}
-
-	//return null if none open
-	private ItemInventorySlot getNextOpenSlot() {
-		foreach (ItemInventorySlot s in slots) {
-			if (s.isEmpty ()) {
-				return s;
-			}
-		}
-
-		return null;
-	}
-
-	public bool addItemMany(Item item, int quantity) {
-		ItemInventorySlot slot = getFirstSlotForItem (item);
-
-		if (slot == null) {
-			Debug.Log ("null slot");
-			return false;
-		}
-
-		return slot.addItemMany (item, quantity);
-	}
-
-	public bool addItem(Item item) {
-		return addItemMany (item, 1);
-	}
-
-	public bool AddItemToSlot(Item item, int slotNum) {
-		return AddItemManyToSlot (item, 1, slotNum);
-	}
-
-	public bool AddItemManyToSlot(Item item, int quantity, int slotNum) {
-		if (slotNum >= NUM_SLOTS || slotNum < 0)
-			return false;
-
-		ItemInventorySlot s = slots [slotNum];
-
-		if (s.isEmpty()) {
-			return setSlot(item, quantity, slotNum);
-		} else {
-			if (s.isAddable (item)) {
-				return s.addItem (item);
-			} else {
-				return false;
-			}
-		}
-
-	}
-
-	public bool removeFromSlot(int slotNum) {
-		return removeManyFromSlot (1, slotNum);
-	}
-
-	public bool removeManyFromSlot(int quantity, int slotNum) {
-		if (slotNum >= NUM_SLOTS || slotNum < 0)
-			return false;
-
-		ItemInventorySlot s = slots [slotNum];
-		s.removeMany (quantity);
-		return true;
-	}
-
-	public void clearSlot(int slotNum) {
-		if (slotNum >= NUM_SLOTS || slotNum < 0)
-			return;
-
-		slots [slotNum].clear ();
-	}
-
-	//returns whether operation was successful
-	public bool setSlot(Item item, int quantity, int slotNum) {
-		if (quantity < 0) {
-			return false;
-		}
-
-		if (slotNum >= NUM_SLOTS || slotNum < 0)
-			return false;
-
-		slots [slotNum].setSlot (item, quantity);
-
-		return true;
+	public Inventory getInventoryBacking() {
+		return inventory;
 	}
 }

@@ -14,12 +14,14 @@ public class NetManager : NetworkManager {
 	public string hostScene;
 	public string clientScene;
 	public GameObject mapPrefab;
+	public TiledMap serverMap;
+
+	private PlayerInfoManager playerInfoManager;
+	private string username;
 
 	// Use this for initialization
 	void Start () {
-      
-		//startAsHost();
-
+		playerInfoManager = GetComponentInChildren<PlayerInfoManager> ();
 	}
 
 	public static NetManager getInstance() {
@@ -32,18 +34,19 @@ public class NetManager : NetworkManager {
 	// Connection Logic //
 	//////////////////////
 
-	public void startAsHost(int port) {
-		Connect (null, port);
+	public void startAsHost(int port, string username) {
+		Connect (null, port, username);
 	}
 
 
-	public void startAsClient(string address, int port) {
-		Connect (address, port);
+	public void startAsClient(string address, int port, string username) {
+		Connect (address, port, username);
 	}
 		
 
 	NetworkClient client;
-	void Connect(string address, int port) {
+	void Connect(string address, int port, string username) {
+		this.username = username;
 
 		if (address != null && port > 0) {
 			client = this.StartClient();
@@ -71,6 +74,8 @@ public class NetManager : NetworkManager {
 		yield return new WaitForSeconds(waitTime);
 
 		GameObject map = (GameObject) Instantiate (mapPrefab, Vector3.zero, Quaternion.identity);
+		serverMap = map.GetComponent<TiledMap> ();
+		serverMap.mapData = MapData.buildDefaultMap ();
 		NetworkServer.Spawn (map);
 	}
 
@@ -83,15 +88,19 @@ public class NetManager : NetworkManager {
 	}
 
 	override
-	public void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+	public void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
 	{
-		Debug.Log ("playerControllerId = " + playerControllerId + " logged in!");
-		GameObject player = (GameObject)GameObject.Instantiate(playerPrefab);
-		player.GetComponent<MoleController> ().syncPos = new GamePosition (new Vector2 (3.5f, 3.5f), 1).toStruct();
-		//playerMap.Add (playerControllerId, player);
-	
-		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+		LoginMessage login = new LoginMessage ();
+		login.Deserialize (extraMessageReader);
 
+		Debug.Log ("playerControllerId = " + login.username + " with player id " + playerControllerId + " logged in!");
+		GameObject player = (GameObject)GameObject.Instantiate(playerPrefab);
+		playerInfoManager.userLogin (login.username, player);
+
+		NetworkWriter writer = new NetworkWriter ();
+		serverMap.mapData.Serialize (writer);
+		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+		serverMap.TargetSetAndApplyMap (conn, writer.AsArray ());
 	}
 
 
@@ -105,8 +114,11 @@ public class NetManager : NetworkManager {
 
 	}
 
-
-
+	override
+	public void OnServerDisconnect(NetworkConnection conn) {
+		playerInfoManager.userLogout (conn);
+		NetworkServer.Destroy (conn.playerControllers [1].gameObject);
+	}
 
 
 	public void OnConnected(NetworkMessage message) {
@@ -122,15 +134,15 @@ public class NetManager : NetworkManager {
 
 		yield return new WaitForSeconds(waitTime);
 
-
-		ClientScene.AddPlayer(message.conn, 1);
+		LoginMessage login = new LoginMessage (username);
+		ClientScene.AddPlayer(message.conn, 1, login);
 	}
 
 	public void OnClientConnected(NetworkMessage message) {
 		Debug.Log("Connected to server2. " + client.isConnected);
 
-
-		ClientScene.AddPlayer(message.conn, 2);
+		LoginMessage login = new LoginMessage (username);
+		ClientScene.AddPlayer(message.conn, 2, login);
 
 	}
 

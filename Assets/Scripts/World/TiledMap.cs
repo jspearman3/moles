@@ -14,7 +14,7 @@ public class TiledMap : NetworkBehaviour {
 
 	public Sprite[] terrain;
 
-	private MapData mapData;
+	public MapData mapData;
 
 	public GameObject itemPrefab;
 
@@ -24,14 +24,17 @@ public class TiledMap : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
         topLeftPoint = GetComponent<Transform>().position;
-		mapData = MapData.buildDefaultMap ();
-		mapWidth = mapData.tiles.GetLength(0);
-		mapHeight = mapData.tiles.GetLength(1);
-		mapDepth = mapData.tiles.GetLength(2);
-		BuildGameWorld ();
+
+		if (isServer) {
+			//mapData = MapData.buildDefaultMap ();
+			//BuildGameWorld ();
+		}
 	}
 
 	private void BuildGameWorld() {
+		mapWidth = mapData.tiles.GetLength(0);
+		mapHeight = mapData.tiles.GetLength(1);
+		mapDepth = mapData.tiles.GetLength(2);
 
 		worldLevels = new GameObject[mapDepth];
 
@@ -117,6 +120,9 @@ public class TiledMap : NetworkBehaviour {
 	public Tile getTileFromGamePosition(GamePosition pos)
     {
 		MapCoords coords = pos.toMapCoords();
+		if (mapData == null) {
+			return new Wall (ConnectableVariant.All_Way);
+		}
         return mapData.getTile(coords);
 
     }
@@ -310,9 +316,50 @@ public class TiledMap : NetworkBehaviour {
         return nonaTile;
     }
 
-/*	public void loadMapData(MapData data) {
-		mapData = data;
-		DrawPlane ();
+	[TargetRpc]
+	public void TargetSetAndApplyMap(NetworkConnection conn, byte[] serverMapData) {
+		string dirt = new Dirt ().Encode ();
+		Debug.Log ("applying server map " + dirt);
+		NetworkReader reader = new NetworkReader (serverMapData);
+		MapData newMapData = new MapData();
+		newMapData.Deserialize (reader);
+		mapData = newMapData;
+		BuildGameWorld ();
 	}
-*/
+	/*
+	[Command]
+	void CmdFetchMapData() {
+		TiledMap serverMap = GameObject.FindGameObjectWithTag ("WorldMap").GetComponent<TiledMap>();
+		MapData serverMapData = serverMap.mapData;
+
+		NetworkWriter writer = new NetworkWriter ();
+		serverMapData.Serialize (writer);
+
+		TargetSetAndApplyMap (GetComponent<NetworkIdentity>().connectionToClient, writer.AsArray());
+	}
+
+	bool phase1Init = false;
+	bool phase2Init = false;
+
+	void Update() {
+		if (isServer)
+			return;
+		
+		if (!phase1Init) {
+			Debug.Log ("fetching map data");
+			CmdFetchMapData ();
+			phase1Init = true;
+			return;
+		}
+
+		if (!phase2Init) {
+			if (mapData == null) {
+				return;
+			}
+			Debug.Log ("recieved map data");
+			BuildGameWorld ();
+			phase2Init = true;
+		}
+
+	}*/
 }

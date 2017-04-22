@@ -24,201 +24,80 @@ desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.407277 ms
-attempting connection with  on port 30135...
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Connected to server1. True
+UnloadTime: 0.873465 ms
+starting server on port 30135...
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 10.750537 ms
-
-Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 367.
-Total: 0.539704 ms (FindLiveObjects: 0.038678 ms CreateObjectMapping: 0.030481 ms MarkObjects: 0.432121 ms  DeleteObjects: 0.016905 ms)
-
-updating ui... Item: null Icon is transparent: True
+Connected to server1. False
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-updating ui... Item: null Icon is transparent: True
+UnloadTime: 3.251288 ms
+
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 350.
+Total: 0.287910 ms (FindLiveObjects: 0.025614 ms CreateObjectMapping: 0.011526 ms MarkObjects: 0.226178 ms  DeleteObjects: 0.008452 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.730534 ms
+
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 350.
+Total: 0.385502 ms (FindLiveObjects: 0.037909 ms CreateObjectMapping: 0.010245 ms MarkObjects: 0.332224 ms  DeleteObjects: 0.004098 ms)
+
+playerControllerId = asd with player id 1 logged in!
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-updating ui... Item: null Icon is transparent: True
+applying server map 47
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-updating ui... Item: null Icon is transparent: True
+server says connection has Mole(Clone) (UnityEngine.GameObject) players
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-updating ui... Item: null Icon is transparent: True
+playerControllerId = adddd with player id 1 logged in!
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-updating ui... Item: null Icon is transparent: True
+NullReferenceException: Object reference not set to an instance of an object
+  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
+  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
+  at GameEntity.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
+  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
+  at GameEntity.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
+  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
+  at GameEntity.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
+  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
+  at GameEntity.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+server says connection has Mole(Clone) (UnityEngine.GameObject) players
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-updating ui... Item: null Icon is transparent: True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: null Icon is transparent: True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: null Icon is transparent: True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: null Icon is transparent: True
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Did not find target for sync message for 8
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Did not find target for sync message for 14
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Did not find target for sync message for 16
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Did not find target for sync message for 57
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Did not find target for sync message for 60
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-setting item...
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: DirtItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-setting item...
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: RockItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 2
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: RockItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 2
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: DirtItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 3
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: RockItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 3
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: DirtItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 4
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: RockItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 4
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: DirtItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 5
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: RockItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 5
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: DirtItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 6
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: DirtItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 6
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: RockItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 7
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: RockItem Icon is transparent: False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-adding 1. Now have 7
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-updating ui... Item: DirtItem Icon is transparent: False
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:61448}
+Player not destroyed when connection disconnected.
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2a48 -> priority: 1 
-  Thread -> id: 3340 -> priority: 1 
+  Thread -> id: 3b84 -> priority: 1 
+  Thread -> id: 3898 -> priority: 1 

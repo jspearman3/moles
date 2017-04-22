@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameWorld : MonoBehaviour {
     TiledMap map = new TiledMap();
-    Player[] currentPlayers;
+    PlayerInfo[] currentPlayers;
 
 	// Use this for initialization
 	void Start () {

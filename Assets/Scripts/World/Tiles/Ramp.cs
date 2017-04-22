@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Ramp :Tile {
-	protected int spriteIndex = 96;
 
 	public Ramp(int index) {
-		spriteIndex = index;
+		spriteIndex = 96;
 	}
 
 	public override bool isWalkable() {
