@@ -153,4 +153,20 @@ public class Inventory : MessageBase {
 		}
 
 	}
+
+	public override string ToString ()
+	{
+		string returnString = "";
+		foreach (ItemInventorySlot s in slots) {
+			if (s.isEmpty ()) {
+				returnString += "[-]";
+			} else {
+				Item item = s.getItem ();
+				int quant = s.getQuantity ();
+				returnString += "[" + item.GetType ().ToString () + ":" + quant.ToString () + "]";
+			}
+		}
+
+		return returnString;
+	}
 }

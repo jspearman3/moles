@@ -9,7 +9,7 @@ public class ItemEntity : GravityObject {
 	private const float HEIGHT_CUTOFF = 0.1f;
 
 	[SyncVar]
-	public Item identity;
+	public string ItemIdentityCode;
 
 	protected override void InitializeObject ()
 	{
@@ -20,12 +20,21 @@ public class ItemEntity : GravityObject {
 	// Update is called once per frame
 	protected override void GameUpdate () {
 		base.GameUpdate();
-		if (identity != null) {
-			rend.sprite = identity.getIcon ();
+		if (getItem() != null) {
+			rend.sprite = getItem().getIcon ();
 		} else {
 			Debug.Log ("WTF NULL");
 		}
 		checkIfPickedUp ();
+	}
+
+	public Item getItem() {
+		return new RockItem ().Decode (ItemIdentityCode);
+	}
+
+	[ClientRpc]
+	public void RpcSetIdentity(string itemCode) {
+		setIdentity(new RockItem ().Decode (itemCode));
 	}
 
 	private void checkIfPickedUp() {
@@ -41,8 +50,15 @@ public class ItemEntity : GravityObject {
 
 			if (heightDiff < HEIGHT_CUTOFF && planeDiff < PICK_UP_DISTANCE) {
 				Player p = player.GetComponent<Player> ();
-				player.GetComponent<Player> ().info.belt.addItem (identity);
-				p.RpcPickUpItem (identity.Encode());
+				p.TargetPickUpItem (player.GetComponent<NetworkIdentity> ().connectionToClient, getItem().Encode ());
+
+				if (!player.GetComponent<NetworkIdentity> ().isLocalPlayer) {
+					player.GetComponent<Player> ().info.belt.addItem (getItem());
+					Debug.Log("Client picked up " + getItem().GetType());
+					Debug.Log ("server thinks client belt is:\n" + player.GetComponent<Player> ().info.belt.ToString ());
+				}
+					
+
 				NetworkServer.Destroy (gameObject);
 			}
 		}
@@ -50,9 +66,11 @@ public class ItemEntity : GravityObject {
 		
 
 	public void setIdentity(Item item) {
-		this.identity = item;
 		if (item != null) {
+			this.ItemIdentityCode = item.Encode ();
 			rend.sprite = item.getIcon ();
+		} else {
+			this.ItemIdentityCode = null;
 		}
 	}
 		

@@ -10,7 +10,7 @@ public class Player : NetworkBehaviour {
 	public string serverdebugtext2;
 	NetworkIdentity identity;
 	PlayerInfoManager playerInfoManager;
-	ItemBar itembar;
+	public ItemBar itembar;
 
 	// Use this for initialization
 	void Start () {
@@ -62,13 +62,10 @@ public class Player : NetworkBehaviour {
 			
 	}
 	
-	[ClientRpc]
-	public void RpcPickUpItem(string itemCode) {
-		if (isLocalPlayer) {
-			Item dummy = new RockItem();
-			itembar.getInventoryBacking().addItem (dummy.Decode (itemCode));
-			itembar.updateUI ();
-		}
-
+	[TargetRpc]
+	public void TargetPickUpItem(NetworkConnection conn, string itemCode) {
+		Item dummy = new RockItem();
+		info.belt.addItem (dummy.Decode (itemCode));
+		itembar.updateUI ();
 	}
 }

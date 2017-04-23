@@ -42,7 +42,7 @@ public class GameEntity : NetworkBehaviour {
 		trans.position = gamePos.getRenderingPosition ();
 
 		if (rend != null) {
-			rend.sortingOrder = map.mapDepth - gamePos.toMapCoords().depth - 1;
+			rend.sortingOrder = (map.mapDepth - gamePos.toMapCoords().depth - 1) * 10 + 5;
 		}
 
 		if (!isLocalPlayer) {

@@ -17,87 +17,32 @@ Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityE
 Loading C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
 Loading C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  0.017 seconds
+- Completed reload, in  0.019 seconds
 Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Jimmy\Projects\Unity\moles\Moles_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 0.873465 ms
-starting server on port 30135...
+UnloadTime: 1.209019 ms
+attempting connection with  on port 30135...
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Connected to server1. True
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-Connected to server1. False
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-UnloadTime: 3.251288 ms
+UnloadTime: 2.671625 ms
 
 Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 350.
-Total: 0.287910 ms (FindLiveObjects: 0.025614 ms CreateObjectMapping: 0.011526 ms MarkObjects: 0.226178 ms  DeleteObjects: 0.008452 ms)
-
-Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.730534 ms
-
-Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 350.
-Total: 0.385502 ms (FindLiveObjects: 0.037909 ms CreateObjectMapping: 0.010245 ms MarkObjects: 0.332224 ms  DeleteObjects: 0.004098 ms)
-
-playerControllerId = asd with player id 1 logged in!
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+Total: 0.259478 ms (FindLiveObjects: 0.025614 ms CreateObjectMapping: 0.008965 ms MarkObjects: 0.211066 ms  DeleteObjects: 0.008196 ms)
 
 applying server map 47
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-server says connection has Mole(Clone) (UnityEngine.GameObject) players
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-playerControllerId = adddd with player id 1 logged in!
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
-  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
-  at GameEntity.Update () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
-  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
-  at GameEntity.Update () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
-  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
-  at GameEntity.Update () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at ItemEntity.checkIfPickedUp () [0x00000] in <filename unknown>:0 
-  at ItemEntity.GameUpdate () [0x00000] in <filename unknown>:0 
-  at GameEntity.Update () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-server says connection has Mole(Clone) (UnityEngine.GameObject) players
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:61448}
-Player not destroyed when connection disconnected.
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 3b84 -> priority: 1 
-  Thread -> id: 3898 -> priority: 1 
+  Thread -> id: 3bfc -> priority: 1 
+  Thread -> id: 3ab8 -> priority: 1 

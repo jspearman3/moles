@@ -53,7 +53,7 @@ public class TiledMap : NetworkBehaviour {
 	}
 
 	private void DrawPlane(int depth, SpriteRenderer renderer) {
-		renderer.sortingOrder = mapDepth - depth - 1;
+		renderer.sortingOrder = (mapDepth - depth - 1) * 10;
 		int texPixelWidth = mapData.tiles.GetLength(0) * Tile.tileWidthInPixels;
 		int texPixelHeight = mapData.tiles.GetLength(1) * Tile.tileWidthInPixels;
 
@@ -153,15 +153,14 @@ public class TiledMap : NetworkBehaviour {
 			GameObject item = GameObject.Instantiate (itemPrefab);
 			ItemEntity ie = item.GetComponent<ItemEntity> ();
 			ie.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
-			ie.identity = new RockItem();
+			ie.setIdentity (new RockItem());
 			ie.syncPos = ie.gamePos.toStruct ();
 			NetworkServer.Spawn (item);
-
 
 			GameObject item2 = GameObject.Instantiate (itemPrefab);
 			ItemEntity ie2 = item2.GetComponent<ItemEntity> ();
 			ie2.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
-			ie2.identity = new DirtItem();
+			ie2.setIdentity(new DirtItem());
 			ie2.syncPos = ie2.gamePos.toStruct ();
 			NetworkServer.Spawn (item2);
 		}
