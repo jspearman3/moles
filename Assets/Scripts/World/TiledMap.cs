@@ -163,6 +163,25 @@ public class TiledMap : NetworkBehaviour {
 			ie2.setIdentity(new DirtItem());
 			ie2.syncPos = ie2.gamePos.toStruct ();
 			NetworkServer.Spawn (item2);
+
+			if (Random.Range (1, 100) <= 25) {
+				GameObject item3 = GameObject.Instantiate (itemPrefab);
+				ItemEntity ie3 = item3.GetComponent<ItemEntity> ();
+				ie3.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
+				ie3.setIdentity(new GrubItem());
+				ie3.syncPos = ie3.gamePos.toStruct ();
+				NetworkServer.Spawn (item3);
+			}
+
+			if (Random.Range (1, 100) <= 50) {
+				GameObject item4 = GameObject.Instantiate (itemPrefab);
+				ItemEntity ie4 = item4.GetComponent<ItemEntity> ();
+				ie4.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
+				ie4.setIdentity(new WormItem());
+				ie4.syncPos = ie4.gamePos.toStruct ();
+				NetworkServer.Spawn (item4);
+			}
+
 		}
 			
 		RpcDig (pos.toStruct());

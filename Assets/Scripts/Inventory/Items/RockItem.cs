@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
 public class RockItem : Item {
-	public RockItem() {
-		this.spriteIndex = 1;
+	public override int spriteIndex 
+	{ 
+		get { return 1; }
 	}
 }

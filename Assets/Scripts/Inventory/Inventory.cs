@@ -17,7 +17,7 @@ public class Inventory : MessageBase {
 
 	private ItemInventorySlot getFirstSlotForItem(Item item) {
 		foreach (ItemInventorySlot s in slots) {
-			if (s.isType(item)) {
+			if (s.isType(item) && !s.isFull()) {
 				return s;
 			}
 		}
@@ -42,18 +42,23 @@ public class Inventory : MessageBase {
 		return null;
 	}
 
-	public bool addItemMany(Item item, int quantity) {
+	public int addItemMany(Item item, int quantity) {
 		ItemInventorySlot slot = getFirstSlotForItem (item);
 
 		if (slot == null) {
-			Debug.Log ("null slot");
-			return false;
+			return quantity;
 		}
 
-		return slot.addItemMany (item, quantity);
+		int remainder = slot.addItemMany (item, quantity);
+
+		if (remainder > 0) {
+			return addItemMany (item, remainder);
+		} else {
+			return remainder;
+		}
 	}
 
-	public bool addItem(Item item) {
+	public int addItem(Item item) {
 		return addItemMany (item, 1);
 	}
 
@@ -70,8 +75,11 @@ public class Inventory : MessageBase {
 		if (s.isEmpty()) {
 			return setSlot(item, quantity, slotNum);
 		} else {
-			if (s.isAddable (item)) {
-				return s.addItem (item);
+			if (s.isAddableItem (item)) {
+				if (s.addItem (item) == -1) {
+					return false;
+				}
+				return true;
 			} else {
 				return false;
 			}

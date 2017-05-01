@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
 public class DirtItem : Item {
-	public DirtItem() {
-		this.spriteIndex = 0;
+	public override int spriteIndex 
+	{ 
+		get { return 0; }
 	}
 }

@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class BeltInventory : Inventory {
 
-	public BeltInventory(int numSlots) : base(numSlots) {}
+	public BeltInventory(int numSlots) : base(numSlots) {
+		addItem (new LeatherBackpackItem ());
+	}
 }

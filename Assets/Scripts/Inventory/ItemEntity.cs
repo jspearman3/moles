@@ -50,16 +50,22 @@ public class ItemEntity : GravityObject {
 
 			if (heightDiff < HEIGHT_CUTOFF && planeDiff < PICK_UP_DISTANCE) {
 				Player p = player.GetComponent<Player> ();
-				p.TargetPickUpItem (player.GetComponent<NetworkIdentity> ().connectionToClient, getItem().Encode ());
 
-				if (!player.GetComponent<NetworkIdentity> ().isLocalPlayer) {
-					player.GetComponent<Player> ().info.belt.addItem (getItem());
-					Debug.Log("Client picked up " + getItem().GetType());
-					Debug.Log ("server thinks client belt is:\n" + player.GetComponent<Player> ().info.belt.ToString ());
+				int remainder = player.GetComponent<Player> ().pickUpItem (getItem ());
+				Debug.Log ("remainder: " + remainder);
+				if (remainder != 0) {
+					return;
 				}
-					
+
+				if (player.GetComponent<NetworkIdentity> ().isLocalPlayer) {
+					player.GetComponent<Player> ().itembar.updateUI ();
+				} else {
+					p.TargetPickUpItem (player.GetComponent<NetworkIdentity> ().connectionToClient, getItem().Encode ());
+				}
+
 
 				NetworkServer.Destroy (gameObject);
+
 			}
 		}
 	}

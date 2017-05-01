@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemBar : MonoBehaviour {
+public class BeltInventoryUI : MonoBehaviour {
 
 	int position = 0;
 	float dist_between_slots = 0;
@@ -18,7 +18,6 @@ public class ItemBar : MonoBehaviour {
 	public GameObject inventorySlotPrefab;
 
 	private Inventory inventory;
-
 
 	void Start() {
 		loadInventory (new Inventory (10));
@@ -56,11 +55,9 @@ public class ItemBar : MonoBehaviour {
 			position = 9;
 		}
 
-		if (Input.GetMouseButtonDown (0)) {
-			
-		}
-
 	}
+		
+
 
 	public void loadInventory(Inventory inventory) {
 		this.inventory = inventory;
@@ -78,11 +75,10 @@ public class ItemBar : MonoBehaviour {
 			iconTrans.localPosition = new Vector2 (startingX + dist_between_slots * i, r.rect.center.y);
 			ItemInventorySlotUI slot = iconObj.GetComponent<ItemInventorySlotUI> ();
 			slot.setSlotBackingInfo (slotBackings[i]);
-			slot.setItemBar (this);
 			slots [i] = slot;
 		}
-
 		updateUI ();
+		selecticle.SetAsLastSibling ();
 	}
 
 	public void updateUI() {
@@ -90,6 +86,10 @@ public class ItemBar : MonoBehaviour {
 			ItemInventorySlotUI slot = slots [i];
 			slot.updateUI();
 		}
+	}
+
+	public int getSelectedSlotNumber() {
+		return position;
 	}
 
 	public Inventory getInventoryBacking() {

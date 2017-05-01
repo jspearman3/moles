@@ -1,21 +1,24 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\World\TiledMap.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\Items\WormItem.cs">
     <Files>
-      <File FileName="Assets\Scripts\Characters\MoleController.cs" Line="147" Column="3" />
-      <File FileName="Assets\Scripts\Networking\NetManager.cs" Line="110" Column="10" />
-      <File FileName="Assets\Scripts\Networking\PlayerInfoManager.cs" Line="22" Column="3" />
-      <File FileName="Assets\Scripts\Characters\Player.cs" Line="40" Column="1" />
-      <File FileName="Assets\Scripts\Characters\PlayerInfo.cs" Line="10" Column="9" />
-      <File FileName="Assets\Scripts\Inventory\ItemEntity.cs" Line="45" Column="41" />
-      <File FileName="Assets\Scripts\World\TiledMap.cs" Line="347" Column="1" />
-      <File FileName="Assets\Scripts\World\MapData.cs" Line="225" Column="92" />
-      <File FileName="Assets\Scripts\World\Tiles\Tile.cs" Line="81" Column="10" />
-      <File FileName="Assets\Scripts\Inventory\Items\Item.cs" Line="27" Column="1" />
-      <File FileName="Assets\Scripts\World\Tiles\Wall.cs" Line="78" Column="55" />
-      <File FileName="Assets\Scripts\World\Tiles\Connectable.cs" Line="15" Column="56" />
-      <File FileName="Assets\Scripts\Inventory\ItemInventorySlot.cs" Line="107" Column="64" />
-      <File FileName="Assets\Scripts\World\Tiles\Ramp.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\HelmetItem.cs" Line="8" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\LowerBodyItem.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\UpperBodyItem.cs" Line="5" Column="24" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\ClawItem.cs" Line="5" Column="27" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\BootsItem.cs" Line="5" Column="28" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\BackpackItem.cs" Line="5" Column="53" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\LeatherBackpackItem.cs" Line="18" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\EquipmentItem.cs" Line="9" Column="2" />
+      <File FileName="Assets\Scripts\Inventory\Items\Item.cs" Line="54" Column="25" />
+      <File FileName="Assets\Scripts\Inventory\Inventory.cs" Line="60" Column="15" />
+      <File FileName="Assets\Scripts\Inventory\ItemInventorySlot.cs" Line="70" Column="2" />
+      <File FileName="Assets\Scripts\Inventory\Items\RockItem.cs" Line="9" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Items\DirtItem.cs" Line="8" Column="2" />
+      <File FileName="Assets\Scripts\Inventory\Items\GrubItem.cs" Line="6" Column="12" />
+      <File FileName="Assets\Scripts\Inventory\Items\WormItem.cs" Line="6" Column="13" />
+      <File FileName="Assets\Scripts\World\TiledMap.cs" Line="180" Column="29" />
+      <File FileName="Assets\Scripts\Inventory\ItemEntity.cs" Line="53" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

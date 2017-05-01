@@ -12,6 +12,14 @@ public class ItemInventorySlot : MessageBase {
 		return item == null;
 	}
 
+	public bool isFull() {
+		if (item == null) {
+			return false;
+		}
+
+		return quantity == item.stackSize;
+	}
+
 	public bool isType(Item item) {
 		if (this.item == null) {
 			if (item == null) {
@@ -22,7 +30,7 @@ public class ItemInventorySlot : MessageBase {
 		return item.GetType ().Equals (this.item.GetType ());
 	}
 
-	public bool isAddable(Item item) {
+	public bool isAddableItem(Item item) {
 		if (isEmpty ()) {
 			return true;
 		} else {
@@ -44,8 +52,8 @@ public class ItemInventorySlot : MessageBase {
 		quantity = 0;
 	}
 
-	public bool addItemMany(Item item, int quantity) {
-		if (isAddable (item)) {
+	public int addItemMany(Item item, int quantity) {
+		if (isAddableItem (item)) {
 
 			if (this.item == null) {
 				this.item = item;
@@ -54,13 +62,17 @@ public class ItemInventorySlot : MessageBase {
 			this.quantity += quantity;
 			if (this.quantity <= 0) {
 				clear ();
+			} else if (this.quantity > item.stackSize){
+				int remainder = this.quantity - item.stackSize;
+				this.quantity = item.stackSize;
+				return remainder;
 			}
-			return true;
+			return 0;
 		}
-		return false;
+		return -1;
 	}
 
-	public bool addItem(Item item) {
+	public int addItem(Item item) {
 		return addItemMany (item, 1);
 	}
 
