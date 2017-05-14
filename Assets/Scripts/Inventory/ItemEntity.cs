@@ -9,7 +9,7 @@ public class ItemEntity : GravityObject {
 		public byte[] data;
 	}
 
-	private const float PICK_UP_DISTANCE = 0.3f;
+	private const float PICK_UP_DISTANCE = 0.6f;
 	private const float HEIGHT_CUTOFF = 0.1f;
 
 	[SyncVar]

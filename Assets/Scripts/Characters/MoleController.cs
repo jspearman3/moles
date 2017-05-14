@@ -5,7 +5,11 @@ using System.Collections;
 public class MoleController : Walker {
 	public static GameObject localPlayer;
 
-	public float speed = 1;
+	public const float WALKING_SPEED = 2f;
+	public const float SPRINTING_SPEED = 4f;
+	public const float ANIMATION_SPEED_FACTOR = 0.4f;
+
+	public float speed = WALKING_SPEED;
     public float digRange = 0.5f;
 
 	Animator anim;
@@ -121,9 +125,16 @@ public class MoleController : Walker {
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
 
+		if (Input.GetKey (KeyCode.LeftShift)) {
+			speed = SPRINTING_SPEED;
+		} else {
+			speed = WALKING_SPEED;
+		}
+
 		Move(new Vector2 (h, v).normalized * speed * Time.deltaTime);
 
 		string animation = selectAnimation (h, v);
+		anim.speed = speed * ANIMATION_SPEED_FACTOR;
 		anim.Play (animation, 0);
 	}
 
