@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class Item : IMessagable<Item> {
+public abstract class Item : MessageBase {
 	private const int DEFAULT_STACK_SIZE = 50;
 
 	public virtual int stackSize 
@@ -33,6 +34,9 @@ public abstract class Item : IMessagable<Item> {
 	}
 
 	public bool IsSameType(object other) {
+		if (other == null) {
+			return false;
+		}
 		if (other.GetType().Equals(this.GetType())) {
 			Item o = other as Item;
 			return o.spriteIndex == this.spriteIndex;
@@ -44,27 +48,49 @@ public abstract class Item : IMessagable<Item> {
 		return itemToIconMap[spriteIndex];
 	}
 
-	public string Encode() {
-		return spriteIndex.ToString();
+	public static Item ReadItem(byte[] bytes) {
+		NetworkReader reader = new NetworkReader (bytes);
+		return ReadItem (reader);
 	}
 
-	public Item Decode(string s) {
-		int res = Int32.Parse (s);
+	public static Item ReadItem(NetworkReader reader) {
+		string itemCode = System.Text.Encoding.Default.GetString (reader.ReadBytesAndSize ());
+		Item item = Decode (itemCode);
+		if (item != null)
+			item.Deserialize (reader);
+		return item;
+	}
 
-		if (res == 0) {
-			return new DirtItem ();
-		} else if (res == 1) {
-			return new RockItem ();
-		} else if (res == 2) {
-			return new GrubItem ();
-		} else if (res == 3) {
-			return new WormItem ();
-		} else if (res == 4) {
-			return new LeatherBackpackItem ();
+	private static Item Decode(string s) {
+		int res = -1;
+		if (Int32.TryParse (s, out res)) {
+			if (res == 0) {
+				return new DirtItem ();
+			} else if (res == 1) {
+				return new RockItem ();
+			} else if (res == 2) {
+				return new GrubItem ();
+			} else if (res == 3) {
+				return new WormItem ();
+			} else if (res == 4) {
+				return new LeatherBackpackItem ();
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}
-		
+
+
+	}
+
+	// should be overriden if any item metadata is to be saved. If unknown item, must decode
+	public override void Deserialize(NetworkReader reader){}
+
+	// should be overriden with initial call to base if any item metadata is to be saved
+	public override void Serialize(NetworkWriter writer)
+	{
+		writer.WriteBytesFull (System.Text.Encoding.Default.GetBytes (spriteIndex.ToString()));
 	}
 
 }

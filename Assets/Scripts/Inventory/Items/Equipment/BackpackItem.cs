@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public abstract class BackpackItem : EquipmentItem {
 	public BackpackInventory inventory;
@@ -12,9 +13,17 @@ public abstract class BackpackItem : EquipmentItem {
 		this.inventory = new BackpackInventory(numSlots);
 	}
 
-	public override bool use (Player player)
+	public override void Deserialize(NetworkReader reader)
 	{
-		player.EquipBackpack (this);
-		return true;
+		base.Deserialize (reader);
+		inventory = new BackpackInventory (0);
+		inventory.Deserialize (reader);
+	}
+
+	// This method would be generated
+	public override void Serialize(NetworkWriter writer)
+	{
+		base.Serialize (writer);
+		inventory.Serialize (writer);
 	}
 }

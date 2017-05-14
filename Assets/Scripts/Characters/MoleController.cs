@@ -11,7 +11,8 @@ public class MoleController : Walker {
 	Animator anim;
 	Rigidbody2D rigid;
 
-    Direction facing;
+    public Direction facing;
+
 	string idleAnimation;
 
 	// Use this for initialization
@@ -49,7 +50,18 @@ public class MoleController : Walker {
 		if (Input.GetKeyDown ("r")) {
 			tryPlaceDirt ();
 		}
+
+		if (Input.GetKeyDown ("p")) {
+			runtest ();
+		}
     }
+
+	private void runtest() {
+		LeatherBackpackItem i = new LeatherBackpackItem ();
+		MessageUtil.ToArray (i);
+		Item item = Item.ReadItem(MessageUtil.ToArray (i));
+		Debug.Log ("item: " + item);
+	}
 
 
     private void tryDig()
@@ -141,9 +153,14 @@ public class MoleController : Walker {
             facing = Direction.West;
             newAnim = "walk_left";
 		}
-
+		CmdSetDirection (facing);
 		return newAnim;
 
+	}
+
+	[Command]
+	private void CmdSetDirection(Direction d) {
+		facing = d;
 	}
 		
 }

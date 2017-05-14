@@ -62,13 +62,13 @@ public class Inventory : MessageBase {
 		return addItemMany (item, 1);
 	}
 
-	public bool AddItemToSlot(Item item, int slotNum) {
+	public int AddItemToSlot(Item item, int slotNum) {
 		return AddItemManyToSlot (item, 1, slotNum);
 	}
 
-	public bool AddItemManyToSlot(Item item, int quantity, int slotNum) {
+	public int AddItemManyToSlot(Item item, int quantity, int slotNum) {
 		if (slotNum >= slots.Length || slotNum < 0)
-			return false;
+			return -1;
 
 		ItemInventorySlot s = slots [slotNum];
 
@@ -76,64 +76,59 @@ public class Inventory : MessageBase {
 			return setSlot(item, quantity, slotNum);
 		} else {
 			if (s.isAddableItem (item)) {
-				if (s.addItem (item) == -1) {
-					return false;
-				}
-				return true;
+				return s.addItemMany (item, quantity);
 			} else {
-				return false;
+				return -1;
 			}
 		}
 
 	}
 
-	public bool removeFromSlot(int slotNum) {
+	public int removeFromSlot(int slotNum) {
 		return removeManyFromSlot (1, slotNum);
 	}
 
-	public bool removeManyFromSlot(int quantity, int slotNum) {
+	public int removeManyFromSlot(int quantity, int slotNum) {
 		if (slotNum >= slots.Length || slotNum < 0)
-			return false;
+			return -1;
 
 		ItemInventorySlot s = slots [slotNum];
-		s.removeMany (quantity);
-		return true;
+		return s.removeMany (quantity);
 	}
 
-	public void clearSlot(int slotNum) {
+	public int clearSlot(int slotNum) {
 		if (slotNum >= slots.Length || slotNum < 0)
-			return;
+			return -1;
 
-		slots [slotNum].clear ();
+		return slots [slotNum].clear ();
 	}
 
 	//returns whether operation was successful
-	public bool setSlot(Item item, int quantity, int slotNum) {
+	public int setSlot(Item item, int quantity, int slotNum) {
 		if (quantity < 0) {
-			return false;
+			return -1;
 		}
 
 		if (slotNum >= slots.Length || slotNum < 0)
-			return false;
+			return -1;
 
-		slots [slotNum].setSlot (item, quantity);
+		return slots [slotNum].setSlot (item, quantity);
 
-		return true;
 	}
 
 	public ItemInventorySlot[] getSlots() {
 		return slots;
 	}
 
-	public void swapSlotPosition(int slotA, int slotB) {
-		if (slotA < 0 || slotB < 0 || slotA >= slots.Length || slotB >= slots.Length) {
-			return;
-		} else {
-			ItemInventorySlot temp = slots [slotA];
-			slots [slotB] = slots [slotA];
-			slots [slotA] = temp;
-		}
-	}
+//	public void swapSlotPosition(int slotA, int slotB) {
+//		if (slotA < 0 || slotB < 0 || slotA >= slots.Length || slotB >= slots.Length) {
+//			return;
+//		} else {
+//			ItemInventorySlot temp = slots [slotA];
+//			slots [slotB] = slots [slotA];
+//			slots [slotA] = temp;
+//		}
+//	}
 
 
 	public override void Deserialize(NetworkReader reader)

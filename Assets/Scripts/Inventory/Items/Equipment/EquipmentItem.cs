@@ -10,4 +10,10 @@ public abstract class EquipmentItem : Item {
 	{ 
 		get { return 1; }
 	}
+
+	public override bool use (Player player)
+	{
+		player.PerformEquipAction (new EquipmentOperation (EquipmentOperation.Operation.SmartSet, MessageUtil.ToArray (this)));
+		return true;
+	}
 }

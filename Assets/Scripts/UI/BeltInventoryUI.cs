@@ -60,6 +60,9 @@ public class BeltInventoryUI : MonoBehaviour {
 
 
 	public void loadInventory(Inventory inventory) {
+		if (inventory == null)
+			return;
+		destroySlotUIs ();
 		this.inventory = inventory;
 
 		RectTransform r = GetComponent<RectTransform> ();
@@ -68,9 +71,9 @@ public class BeltInventoryUI : MonoBehaviour {
 		startingX = r.rect.xMin + dist_between_slots / 2;
 
 		slots = new ItemInventorySlotUI [slotBackings.Length];
-
 		for (int i = 0; i < slotBackings.Length; i++) {
 			GameObject iconObj = GameObject.Instantiate (inventorySlotPrefab, GetComponent<Transform> ());
+			iconObj.name = "BeltSlot " + i; 
 			RectTransform iconTrans = iconObj.GetComponent<RectTransform> ();
 			iconTrans.localPosition = new Vector2 (startingX + dist_between_slots * i, r.rect.center.y);
 			ItemInventorySlotUI slot = iconObj.GetComponent<ItemInventorySlotUI> ();
@@ -79,6 +82,16 @@ public class BeltInventoryUI : MonoBehaviour {
 		}
 		updateUI ();
 		selecticle.SetAsLastSibling ();
+	}
+
+	public void destroySlotUIs() {
+		if (slots == null)
+			return;
+
+		foreach (ItemInventorySlotUI s in slots) {
+			if (s != null)
+				GameObject.Destroy (s.gameObject);
+		}
 	}
 
 	public void updateUI() {

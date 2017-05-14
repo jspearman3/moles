@@ -30,6 +30,18 @@ public class ItemInventorySlot : MessageBase {
 		return item.GetType ().Equals (this.item.GetType ());
 	}
 
+	public bool isAddableItems(Item item, int quantity) {
+		if (isEmpty () || quantity == 0) {
+			return true;
+		} else {
+			if (isType (item)) {
+				return item.stackSize - this.quantity > quantity;
+			} else {
+				return false;
+			}
+		}
+	}
+
 	public bool isAddableItem(Item item) {
 		if (isEmpty ()) {
 			return true;
@@ -46,10 +58,10 @@ public class ItemInventorySlot : MessageBase {
 		}
 	}
 
-	public void clear() {
-		Debug.Log ("clearing...");
+	public int clear() {
 		item = null;
 		quantity = 0;
+		return 0;
 	}
 
 	public int addItemMany(Item item, int quantity) {
@@ -76,17 +88,32 @@ public class ItemInventorySlot : MessageBase {
 		return addItemMany (item, 1);
 	}
 
-	public void removeMany(int i) {
-		addItemMany (item, -i);
+	public int removeMany(int i) {
+		return addItemMany (item, -i);
 	}
 
-	public void removeOne() {
-		removeMany (1);
+	public int removeOne() {
+		return removeMany (1);
 	}
 
-	public void setSlot(Item item, int quantity) {
+	public int setSlot(Item item, int quantity) {
+		if (item == null) {
+			clear ();
+			return 0;
+		}
+
 		this.item = item;
-		this.quantity = quantity;
+
+		if (quantity > item.stackSize) {
+			this.quantity = item.stackSize;
+		} else if (quantity <= 0) {
+			clear ();
+		} else {
+			this.quantity = quantity;
+		}
+
+		return 0;
+			
 	}
 
 	public Item getItem() {
@@ -99,14 +126,7 @@ public class ItemInventorySlot : MessageBase {
 		
 	public override void Deserialize(NetworkReader reader)
 	{
-		string itemString = System.Text.Encoding.Default.GetString (reader.ReadBytesAndSize ());
-
-		if (itemString.Equals ("null")) {
-			item = null;
-		} else {
-			item = new RockItem ().Decode (itemString);
-		}
-
+		item = Item.ReadItem(reader);
 		quantity = (int) reader.ReadPackedUInt32 ();
 	}
 
@@ -116,7 +136,7 @@ public class ItemInventorySlot : MessageBase {
 		if (item == null) {
 			writer.WriteBytesFull (System.Text.Encoding.Default.GetBytes ("null"));
 		} else {
-			writer.WriteBytesFull (System.Text.Encoding.Default.GetBytes (item.Encode()));
+			item.Serialize (writer);
 		}
 		writer.WritePackedUInt32 ((uint) quantity);
 	}

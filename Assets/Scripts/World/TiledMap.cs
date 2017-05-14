@@ -16,7 +16,7 @@ public class TiledMap : NetworkBehaviour {
 
 	public MapData mapData;
 
-	public GameObject itemPrefab;
+	public SpawnManager spawnManager;
 
     private Vector2 topLeftPoint;
 	public GameObject[] worldLevels;
@@ -24,11 +24,6 @@ public class TiledMap : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
         topLeftPoint = GetComponent<Transform>().position;
-
-		if (isServer) {
-			//mapData = MapData.buildDefaultMap ();
-			//BuildGameWorld ();
-		}
 	}
 
 	private void BuildGameWorld() {
@@ -145,41 +140,23 @@ public class TiledMap : NetworkBehaviour {
 
 
 	public void dig(GamePosition pos) {
+		if (!isServer)
+			return;
+		
 		MapCoords mapCoords = pos.toMapCoords();
 	
 		Tile tile = mapData.getTile (mapCoords);
 
 		if (tile.GetType ().Equals (typeof(Wall))) {
-			GameObject item = GameObject.Instantiate (itemPrefab);
-			ItemEntity ie = item.GetComponent<ItemEntity> ();
-			ie.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
-			ie.setIdentity (new RockItem());
-			ie.syncPos = ie.gamePos.toStruct ();
-			NetworkServer.Spawn (item);
-
-			GameObject item2 = GameObject.Instantiate (itemPrefab);
-			ItemEntity ie2 = item2.GetComponent<ItemEntity> ();
-			ie2.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
-			ie2.setIdentity(new DirtItem());
-			ie2.syncPos = ie2.gamePos.toStruct ();
-			NetworkServer.Spawn (item2);
+			spawnManager.SpawnItemFromTile (new RockItem (), 1, mapCoords.toGamePosition ());
+			spawnManager.SpawnItemFromTile (new DirtItem (), 1, mapCoords.toGamePosition ());
 
 			if (Random.Range (1, 100) <= 25) {
-				GameObject item3 = GameObject.Instantiate (itemPrefab);
-				ItemEntity ie3 = item3.GetComponent<ItemEntity> ();
-				ie3.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
-				ie3.setIdentity(new GrubItem());
-				ie3.syncPos = ie3.gamePos.toStruct ();
-				NetworkServer.Spawn (item3);
+				spawnManager.SpawnItemFromTile (new GrubItem (), 1, mapCoords.toGamePosition ());
 			}
 
 			if (Random.Range (1, 100) <= 50) {
-				GameObject item4 = GameObject.Instantiate (itemPrefab);
-				ItemEntity ie4 = item4.GetComponent<ItemEntity> ();
-				ie4.gamePos = new GamePosition (mapCoords.toGamePosition ().planePosition + Random.insideUnitCircle * 0.25f, mapCoords.toGamePosition ().depth - 0.5f);
-				ie4.setIdentity(new WormItem());
-				ie4.syncPos = ie4.gamePos.toStruct ();
-				NetworkServer.Spawn (item4);
+				spawnManager.SpawnItemFromTile (new WormItem (), 1, mapCoords.toGamePosition ());
 			}
 
 		}
@@ -337,47 +314,24 @@ public class TiledMap : NetworkBehaviour {
 	[TargetRpc]
 	public void TargetSetAndApplyMap(NetworkConnection conn, byte[] serverMapData) {
 		string dirt = new Dirt ().Encode ();
-		Debug.Log ("applying server map " + dirt);
 		NetworkReader reader = new NetworkReader (serverMapData);
 		MapData newMapData = new MapData();
 		newMapData.Deserialize (reader);
 		mapData = newMapData;
 		BuildGameWorld ();
 	}
-	/*
-	[Command]
-	void CmdFetchMapData() {
-		TiledMap serverMap = GameObject.FindGameObjectWithTag ("WorldMap").GetComponent<TiledMap>();
-		MapData serverMapData = serverMap.mapData;
-
-		NetworkWriter writer = new NetworkWriter ();
-		serverMapData.Serialize (writer);
-
-		TargetSetAndApplyMap (GetComponent<NetworkIdentity>().connectionToClient, writer.AsArray());
-	}
-
+		
 	bool phase1Init = false;
-	bool phase2Init = false;
 
 	void Update() {
-		if (isServer)
-			return;
 		
 		if (!phase1Init) {
-			Debug.Log ("fetching map data");
-			CmdFetchMapData ();
-			phase1Init = true;
-			return;
-		}
-
-		if (!phase2Init) {
-			if (mapData == null) {
+			GameObject sm = GameObject.FindGameObjectWithTag ("SpawnManager");
+			if (sm == null)
 				return;
-			}
-			Debug.Log ("recieved map data");
-			BuildGameWorld ();
-			phase2Init = true;
-		}
 
-	}*/
+			spawnManager = sm.GetComponent<SpawnManager> ();
+			phase1Init = true;
+		}
+	}
 }

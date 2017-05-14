@@ -57,23 +57,19 @@ public class BackpackInventoryUI : MonoBehaviour {
 
 	void buildSlots() {
 		if (inventory == null) {
-			Debug.Log ("inventory null... returning");
 			return;
 		}
 
 		ItemInventorySlot[] slotBackings = inventory.getSlots ();
-		Debug.Log ("num slots in inv: " + slotBackings.Length);
 		slots = new ItemInventorySlotUI[slotBackings.Length];
-		Debug.Log ("num mod 5: " + slots.Length % NUM_SLOTS_WIDTH);
-		Debug.Log ("num div 5: " + slots.Length / NUM_SLOTS_WIDTH);
 
 		for (int i = 0; i < slots.Length; i++) {
 
 			int col = i % NUM_SLOTS_WIDTH;
 			int row = i / NUM_SLOTS_WIDTH;
 
-			Debug.Log ("building slot");
 			GameObject iconObj = GameObject.Instantiate (inventorySlotPrefab, GetComponent<Transform> ());
+			iconObj.name = "BackpackSlot " + i;
 			RectTransform iconTrans = iconObj.GetComponent<RectTransform> ();
 			iconTrans.localPosition = slotSeed.localPosition + new Vector3 (slotSeed.rect.size.x * col, slotSeed.rect.size.y * row);
 			ItemInventorySlotUI slot = iconObj.GetComponent<ItemInventorySlotUI> ();
