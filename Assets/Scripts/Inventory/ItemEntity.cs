@@ -68,14 +68,16 @@ public class ItemEntity : GravityObject {
 			if (heightDiff < HEIGHT_CUTOFF && planeDiff < PICK_UP_DISTANCE) {
 				Player p = player.GetComponent<Player> ();
 
-
+				Debug.Log(getItem() +  " getting picked up of quantity " + quantity);
 				InventoryOperation invOp = new InventoryOperation (InventoryOperation.Operation.AddItems, new byte[][] { itemData.data, System.Text.Encoding.Default.GetBytes(quantity.ToString()) });
 
 				int remainder = player.GetComponent<Player> ().PerformInventoryAction (invOp, "general");
 				Debug.Log ("remainder: " + remainder);
-				if (remainder != 0) {
+
+				if (remainder >= quantity) {
 					return;
 				}
+				quantity = remainder;
 
 				if (!player.GetComponent<NetworkIdentity> ().isLocalPlayer) {
 					//player.GetComponent<Player> ().beltUI.updateUI ();
@@ -87,8 +89,8 @@ public class ItemEntity : GravityObject {
 					//p.TargetPickUpItem (player.GetComponent<NetworkIdentity> ().connectionToClient, getItem().Encode ());
 				}
 
-
-				NetworkServer.Destroy (gameObject);
+				if (quantity <= 0)
+					NetworkServer.Destroy (gameObject);
 
 			}
 		}

@@ -1,12 +1,20 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\UI\InventoryUIManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Inventory\ItemEntity.cs">
     <Files>
-      <File FileName="Assets\Scripts\Networking\PlayerInfoManager.cs" Line="31" Column="53" />
-      <File FileName="Assets\Scripts\UI\InventoryUIManager.cs" Line="86" Column="37" />
-      <File FileName="Assets\Scripts\Inventory\InventoryOperationRequest.cs" Line="360" Column="69" />
-      <File FileName="Assets\Scripts\UI\BackpackInventoryUI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Inventory\Items\Item.cs" Line="37" Column="17" />
+      <File FileName="Assets\Scripts\Inventory\ItemEntity.cs" Line="12" Column="44" />
+      <File FileName="Assets\Scripts\Networking\GamePosition.cs" Line="64" Column="25" />
+      <File FileName="Assets\Scripts\Inventory\Items\Item.cs" Line="57" Column="1" />
+      <File FileName="Assets\Scripts\Inventory\Items\Equipment\BackpackItem.cs" Line="27" Column="17" />
+      <File FileName="Assets\Scripts\Inventory\ItemInventorySlot.cs" Line="129" Column="32" />
+      <File FileName="Assets\Scripts\Characters\PlayerInfo.cs" Line="26" Column="3" />
+      <File FileName="Assets\Scripts\Characters\MoleController.cs" Line="10" Column="49" />
+      <File FileName="Assets\Scripts\Inventory\BeltInventory.cs" Line="5" Column="33" />
+      <File FileName="Assets\Scripts\UI\BeltInventoryUI.cs" Line="74" Column="28" />
+      <File FileName="Assets\Scripts\Characters\Player.cs" Line="63" Column="20" />
+      <File FileName="Assets\Scripts\UI\ItemInventorySlotUI.cs" Line="24" Column="8" />
+      <File FileName="Assets\Scripts\World\SpawnManager.cs" Line="25" Column="11" />
+      <File FileName="Assets\Scripts\Util\Direction.cs" Line="19" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -28,8 +28,9 @@ public class SpawnManager : MonoBehaviour {
 		ie.gamePos = position;
 		ie.setIdentity(item);
 		ie.syncPos = ie.gamePos.toStruct ();
-		ie.setQuantity (quantity);
 		NetworkServer.Spawn (itemGo);
+		ie.setQuantity (quantity);
+		Debug.Log ("spawned " + item + " of quantity " + quantity);
 	}
 
 	public void SpawnPlayerDroppedItem(Item item, int quantity, MoleController playerController) {
