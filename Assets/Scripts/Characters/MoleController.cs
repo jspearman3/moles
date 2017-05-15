@@ -5,13 +5,18 @@ using System.Collections;
 public class MoleController : Walker {
 	public static GameObject localPlayer;
 
-	public float speed = 1;
+	public const float WALKING_SPEED = 2f;
+	public const float SPRINTING_SPEED = 4f;
+	public const float ANIMATION_SPEED_FACTOR = 0.4f;
+
+	public float speed = WALKING_SPEED;
     public float digRange = 0.5f;
 
 	Animator anim;
 	Rigidbody2D rigid;
 
-    Direction facing;
+    public Direction facing;
+
 	string idleAnimation;
 
 	// Use this for initialization
@@ -49,7 +54,18 @@ public class MoleController : Walker {
 		if (Input.GetKeyDown ("r")) {
 			tryPlaceDirt ();
 		}
+
+		if (Input.GetKeyDown ("p")) {
+			runtest ();
+		}
     }
+
+	private void runtest() {
+		LeatherBackpackItem i = new LeatherBackpackItem ();
+		MessageUtil.ToArray (i);
+		Item item = Item.ReadItem(MessageUtil.ToArray (i));
+		Debug.Log ("item: " + item);
+	}
 
 
     private void tryDig()
@@ -109,9 +125,16 @@ public class MoleController : Walker {
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
 
+		if (Input.GetKey (KeyCode.LeftShift)) {
+			speed = SPRINTING_SPEED;
+		} else {
+			speed = WALKING_SPEED;
+		}
+
 		Move(new Vector2 (h, v).normalized * speed * Time.deltaTime);
 
 		string animation = selectAnimation (h, v);
+		anim.speed = speed * ANIMATION_SPEED_FACTOR;
 		anim.Play (animation, 0);
 	}
 
@@ -141,9 +164,14 @@ public class MoleController : Walker {
             facing = Direction.West;
             newAnim = "walk_left";
 		}
-
+		CmdSetDirection (facing);
 		return newAnim;
 
+	}
+
+	[Command]
+	private void CmdSetDirection(Direction d) {
+		facing = d;
 	}
 		
 }

@@ -10,6 +10,8 @@ public class ItemInventorySlotUI : MonoBehaviour {
 	public Image image;
 	public Text quantityText;
 
+	public int slotNum = -1;
+
 	void Start () {
 		image = GetComponentInChildren<Image> ();
 		quantityText = GetComponentInChildren<Text> ();
@@ -19,6 +21,7 @@ public class ItemInventorySlotUI : MonoBehaviour {
 
 	public void setSlotBackingInfo(ItemInventorySlot slot) {
 		this.slot = slot;
+		updateUI ();
 	}
 
 	public void setSlot(Item item, int quantity) {
@@ -64,5 +67,11 @@ public class ItemInventorySlotUI : MonoBehaviour {
 			quantityText.text = "99+";
 		}
 	}
+
+	void OnMouseOver() {
+		Debug.Log ("over me!");
+	}
+
+
 
 }

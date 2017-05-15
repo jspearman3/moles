@@ -30,6 +30,16 @@ public class EquipMenuUI : MonoBehaviour {
 			trans.localPosition = Vector3.Lerp(trans.localPosition, closedPosition, .2f);
 		}
 	}
+
+	public void updateUI(PlayerInfo info) {
+		setBackpack (info.backpack);
+		setHelmet (info.helmet);
+		setUpperBody (info.upperBody);
+		setLowerBody (info.lowerBody);
+		setBoots (info.boots);
+		setLeftClaw (info.leftClaw);
+		setRightClaw (info.rightClaw);
+	}
 		
 	public void setHelmet(HelmetItem equipment) {
 		ItemInventorySlot slot = new ItemInventorySlot ();

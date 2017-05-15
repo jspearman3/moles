@@ -19,8 +19,6 @@ public class PlayerInfoManager : NetworkBehaviour {
 	}
 
 	public PlayerInfo getPlayerInfo(NetworkConnection conn) {
-
-		Debug.Log ("server says connection has " + conn.playerControllers[1].gameObject + " players");
 		return conn.playerControllers [1].gameObject.GetComponent<Player> ().info;
 	}
 
@@ -30,6 +28,7 @@ public class PlayerInfoManager : NetworkBehaviour {
 
 		if (!usernameToPlayerInfo.TryGetValue (username, out playerInfo)) {
 			playerInfo = new PlayerInfo (new BeltInventory(10));
+			playerInfo.cursorSlot = new ItemInventorySlot ();
 			usernameToPlayerInfo.Add (username, playerInfo);
 
 
@@ -53,5 +52,11 @@ public class PlayerInfoManager : NetworkBehaviour {
 		info.lastLogoutPos = playerObj.GetComponent<MoleController> ().gamePos;
 	}
 
+
+	public void ValidateAndPerformInventoryRequest(InventoryOperationRequest request, Player p) {
+		if (InventoryOperationRequest.validateRequest (request, p.info)) {
+			InventoryOperationRequest.performInventoryRequest (request, p);
+		}
+	}
 
 }

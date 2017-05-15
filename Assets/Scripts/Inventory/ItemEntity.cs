@@ -4,12 +4,18 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class ItemEntity : GravityObject {
+	private struct ItemDataStruct
+	{
+		public byte[] data;
+	}
 
-	private const float PICK_UP_DISTANCE = 0.3f;
+	private const float PICK_UP_DISTANCE = 0.6f;
 	private const float HEIGHT_CUTOFF = 0.1f;
 
 	[SyncVar]
-	public string ItemIdentityCode;
+	private ItemDataStruct itemData = new ItemDataStruct();
+	[SyncVar]
+	private int quantity = 1;
 
 	protected override void InitializeObject ()
 	{
@@ -29,12 +35,19 @@ public class ItemEntity : GravityObject {
 	}
 
 	public Item getItem() {
-		return new RockItem ().Decode (ItemIdentityCode);
+		return Item.ReadItem(itemData.data);
+	}
+
+	public void setQuantity(int quantity) {
+		if (!isServer)
+			return; //quit trying to cheat!
+
+		this.quantity = quantity;
 	}
 
 	[ClientRpc]
-	public void RpcSetIdentity(string itemCode) {
-		setIdentity(new RockItem ().Decode (itemCode));
+	public void RpcSetIdentity(byte[] itemData) {
+		setIdentity(Item.ReadItem(itemData));
 	}
 
 	private void checkIfPickedUp() {
@@ -45,22 +58,33 @@ public class ItemEntity : GravityObject {
 
 		foreach (GameObject player in players) {
 			MoleController playerController = player.GetComponent<MoleController> ();
+
+			if (playerController == null || playerController.gamePos == null)
+				continue;
+
 			float heightDiff = Mathf.Abs(gamePos.depth - playerController.gamePos.depth);
 			float planeDiff = (gamePos.planePosition - playerController.gamePos.planePosition).magnitude;
 
 			if (heightDiff < HEIGHT_CUTOFF && planeDiff < PICK_UP_DISTANCE) {
 				Player p = player.GetComponent<Player> ();
 
-				int remainder = player.GetComponent<Player> ().pickUpItem (getItem ());
+
+				InventoryOperation invOp = new InventoryOperation (InventoryOperation.Operation.AddItems, new byte[][] { itemData.data, System.Text.Encoding.Default.GetBytes(quantity.ToString()) });
+
+				int remainder = player.GetComponent<Player> ().PerformInventoryAction (invOp, "general");
 				Debug.Log ("remainder: " + remainder);
 				if (remainder != 0) {
 					return;
 				}
 
-				if (player.GetComponent<NetworkIdentity> ().isLocalPlayer) {
-					player.GetComponent<Player> ().itembar.updateUI ();
-				} else {
-					p.TargetPickUpItem (player.GetComponent<NetworkIdentity> ().connectionToClient, getItem().Encode ());
+				if (!player.GetComponent<NetworkIdentity> ().isLocalPlayer) {
+					//player.GetComponent<Player> ().beltUI.updateUI ();
+				//} else {
+
+					NetworkWriter writer = new NetworkWriter ();
+					invOp.Serialize (writer);
+					p.TargetPerformInventoryAction (player.GetComponent<NetworkIdentity> ().connectionToClient, writer.AsArray (), "general");
+					//p.TargetPickUpItem (player.GetComponent<NetworkIdentity> ().connectionToClient, getItem().Encode ());
 				}
 
 
@@ -73,10 +97,10 @@ public class ItemEntity : GravityObject {
 
 	public void setIdentity(Item item) {
 		if (item != null) {
-			this.ItemIdentityCode = item.Encode ();
+			this.itemData.data = MessageUtil.ToArray(item);
 			rend.sprite = item.getIcon ();
 		} else {
-			this.ItemIdentityCode = null;
+			this.itemData.data = new byte[0];
 		}
 	}
 		
