@@ -22,6 +22,7 @@ public class PlayerInfo : MessageBase {
 	MoleController controller;
 
 	public PlayerInfo(BeltInventory belt) {
+		this.cursorSlot = new ItemInventorySlot ();
 		this.belt = belt;
 	}
 

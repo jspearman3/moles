@@ -6,28 +6,22 @@ public class MoleController : Walker {
 	public static GameObject localPlayer;
 
 	public const float WALKING_SPEED = 2f;
-	public const float SPRINTING_SPEED = 4f;
-	public const float ANIMATION_SPEED_FACTOR = 0.4f;
+	public const float SPRINTING_SPEED = 3f;
 
 	public float speed = WALKING_SPEED;
     public float digRange = 0.5f;
 
-	Animator anim;
 	Rigidbody2D rigid;
 
     public Direction facing;
-
-	string idleAnimation;
 
 	// Use this for initialization
 	void Start () {
 		if (isLocalPlayer) {
 			localPlayer = gameObject;
 		}
-
-		idleAnimation = "idle_down";
+			
         facing = Direction.South;
-		anim = GetComponent<Animator> ();
 		rigid = GetComponent<Rigidbody2D> ();
 	}
 	
@@ -43,7 +37,7 @@ public class MoleController : Walker {
 
     private void actions()
     {
-        if (Input.GetKeyDown("e"))
+		if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
         {
 
             tryDig();
@@ -59,6 +53,15 @@ public class MoleController : Walker {
 			runtest ();
 		}
     }
+
+	private float getCursorAngle() {
+		Vector2 mousePos = (Input.mousePosition - new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0)).normalized;
+		Vector3 cross = Vector3.Cross (mousePos, Vector2.right);
+		float angle = Vector2.Angle (mousePos, Vector2.right);
+		if (cross.z > 0)
+			angle = 360 - angle;
+		return angle;
+	}
 
 	private void runtest() {
 		LeatherBackpackItem i = new LeatherBackpackItem ();
@@ -133,40 +136,23 @@ public class MoleController : Walker {
 
 		Move(new Vector2 (h, v).normalized * speed * Time.deltaTime);
 
-		string animation = selectAnimation (h, v);
-		anim.speed = speed * ANIMATION_SPEED_FACTOR;
-		anim.Play (animation, 0);
+		setFacing();
 	}
 
-	private string selectAnimation(float h, float v) {
-
-		if (h == 0 && v == 0) {
-			return idleAnimation;
+	private void setFacing() {
+		float cursorAngle = getCursorAngle ();
+		facing = Direction.South;
+		if (cursorAngle > 315 || cursorAngle <= 45) {
+			facing = Direction.East;
+		} else if (cursorAngle > 45 && cursorAngle <= 135) {
+			facing = Direction.North;
+		} else if (cursorAngle > 135 && cursorAngle <= 225) {
+			facing = Direction.West;
+		} else if (cursorAngle > 225 && cursorAngle <= 315) {
+			facing = Direction.South;
 		}
-
-		string newAnim = null;
-		if (v > 0) {
-			idleAnimation = "idle_up";
-            facing = Direction.North;
-			newAnim = "walk_up";
-		} else if (v < 0) {
-			idleAnimation = "idle_down";
-            facing = Direction.South;
-            newAnim = "walk_down";
-		}
-
-		if (h > 0) {
-			idleAnimation = "idle_right";
-            facing = Direction.East;
-            newAnim = "walk_right";
-		} else if (h < 0) {
-			idleAnimation = "idle_left";
-            facing = Direction.West;
-            newAnim = "walk_left";
-		}
+	
 		CmdSetDirection (facing);
-		return newAnim;
-
 	}
 
 	[Command]

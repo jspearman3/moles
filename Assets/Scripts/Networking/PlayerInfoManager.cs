@@ -28,7 +28,6 @@ public class PlayerInfoManager : NetworkBehaviour {
 
 		if (!usernameToPlayerInfo.TryGetValue (username, out playerInfo)) {
 			playerInfo = new PlayerInfo (new BeltInventory(10));
-			playerInfo.cursorSlot = new ItemInventorySlot ();
 			usernameToPlayerInfo.Add (username, playerInfo);
 
 
