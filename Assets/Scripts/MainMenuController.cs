@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour {
-	NetManager networkManager;
+	MolesClient molesClient;
 	public InputField usernameField;
 	public InputField addressField;
 	public InputField portField;
@@ -12,20 +12,12 @@ public class MainMenuController : MonoBehaviour {
 
 
 	void Start() {
-		networkManager = NetManager.getInstance ();
-	}
+        molesClient = GameObject.Find("MolesClient").GetComponent<MolesClient>();
+    }
 
-	public void StartAsHost() {
-		startGame ("host");
-	}
-
-	public void StartAsClient() {
-		startGame ("client");
-	}
-
-	private void startGame(string clientType) {
+	public void joinGame() {
 		string address = addressField.text;
-		int port = int.Parse(portField.text);
+		ushort port = ushort.Parse(portField.text);
 		string username = usernameField.text;
 
 		if (username.Length < 3) {
@@ -38,13 +30,8 @@ public class MainMenuController : MonoBehaviour {
 			return;
 		}
 
-		if (clientType.Equals("client")) {
-			Debug.Log ("attempting connection with " + address + " on port " + port + "...");
-			networkManager.startAsClient (address, port, username);
-		} else {
-			Debug.Log ("starting server on port " + port + "...");
-			networkManager.startAsHost (port, username);
-		}
+		Debug.Log ("attempting connection with " + address + " on port " + port + "...");
+		molesClient.connect (address, port, username);
 	}
 
 
